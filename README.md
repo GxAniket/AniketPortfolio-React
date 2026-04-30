@@ -55,10 +55,6 @@ portfolio/
 │   │   ├── Social.jsx
 │   │   ├── Animation.jsx
 │   │   └── ...
-│
-│   └── styles/ (optional)
-│       └── globals.css
-
 ├── package.json
 ├── tailwind.config.js
 └── README.md
