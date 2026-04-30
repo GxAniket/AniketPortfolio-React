@@ -36,13 +36,32 @@ Currently **under active development** — the first working version will be rel
 ## 🗂️ Project Structure (planned)  
 <pre>
 portfolio/
-├── public/             # Static assets
-├── src/                # React components
-│   ├── components/     # Reusable UI Components
-│   ├── pages/          # Sections (Home, About, Projects)
-│   └── ...
-├── README.md
-└── package.json
+├── public/                 # Images, icons, etc
+│   └── profile.jpg
+
+├── src/
+│   ├── app/                # 🔥 Main routing system (IMPORTANT)
+│   │   ├── layout.jsx      # Global layout (Navbar here)
+│   │   ├── page.jsx        # Home page
+│   │   ├── about/
+│   │   │   └── page.jsx
+│   │   ├── portfolio/
+│   │   │   └── page.jsx
+│   │   └── contact/
+│   │       └── page.jsx
+│
+│   ├── components/         # Reusable UI
+│   │   ├── Navbar.jsx
+│   │   ├── Social.jsx
+│   │   ├── Animation.jsx
+│   │   └── ...
+│
+│   └── styles/ (optional)
+│       └── globals.css
+
+├── package.json
+├── tailwind.config.js
+└── README.md
 </pre>
 
 ---
