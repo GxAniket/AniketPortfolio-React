@@ -1,7 +1,7 @@
-<h1 align="center">💼 Aniket Sundriyal — Portfolio Website</h1>
+<h1 align="center">💼 Portfolio Website</h1>
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&duration=3000&pause=1000&color=00F7FF&center=true&vCenter=true&width=500&lines=Personal+Portfolio+Website;Showcasing+Projects+%26+Skills;Built+by+Aniket+Sundriyal" alt="Typing animation" />
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&duration=3000&pause=1000&color=00F7FF&center=true&vCenter=true&width=500&lines=Personal+Portfolio+Website;Showcasing+Projects+%26+Skills" alt="Typing animation" />
 </p>
 
 ---
@@ -27,9 +27,9 @@ Currently **under active development** — the first working version will be rel
 
 | Layer     | Tools Used                     |
 |-----------|--------------------------------|
-| Frontend  | HTML, CSS, JavaScript, React   |
-| Styling   | TailwindCSS / Bootstrap         |
-| Hosting   | GitHub Pages / Vercel / Netlify |
+| Frontend  | React.js, Next.js, JavaScript  |
+| Styling   | Tailwind CSS                   |
+| Hosting   | Vercel / GitHub Pages          |
 
 ---
 
@@ -38,18 +38,18 @@ Currently **under active development** — the first working version will be rel
 portfolio/
 ├── public/                 # Images, icons, etc
 │   └── profile.jpg
-
+│
 ├── src/
-│   ├── app/                # 🔥 Main routing system (IMPORTANT)
+│   ├── app/                # 🔥 Main routing system
 │   │   ├── layout.jsx      # Global layout (Navbar here)
 │   │   ├── page.jsx        # Home page
 │   │   ├── about/
 │   │   │   └── page.jsx
-│   │   ├── portfolio/
+│   │   ├── projects/
 │   │   │   └── page.jsx
 │   │   └── contact/
 │   │       └── page.jsx
-│
+│   │
 │   ├── components/         # Reusable UI
 │   │   ├── Navbar.jsx
 │   │   ├── Social.jsx
@@ -126,4 +126,3 @@ Feel free to reach out and connect!
   <a href="https://www.youtube.com/@gxaniket001"><img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="YouTube"></a>
   <a href="https://discord.gg/RFMUHw4Y"><img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Discord"></a>
 </p>
->>>>>>> c6064502d75a6ca513f5526bdf9f0eec0cd2a921
