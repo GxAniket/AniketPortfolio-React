@@ -64,7 +64,7 @@ portfolio/
 
 ## 📸 Screenshots  
 
-*(coming soon)*
+<img width="1536" height="1024" alt="portfolio" src="https://github.com/user-attachments/assets/103d8cb7-723d-4340-9056-1545c1c6fd56" />
 
 ---
 

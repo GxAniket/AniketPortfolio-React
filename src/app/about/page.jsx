@@ -63,7 +63,7 @@ const education = [
     school: "Uttaranchal University",
     degree: "B.Tech – Computer Science & Engineering",
     period: "Aug 2023 – Aug 2027",
-    grade: "7.9 CGPA",
+    grade: "7.61 CGPA",
     accent: "#22d3ee",
     note: "Focus on Software Engineering and Full-Stack Development",
   },
