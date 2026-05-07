@@ -4,12 +4,25 @@
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&duration=3000&pause=1000&color=00F7FF&center=true&vCenter=true&width=500&lines=Personal+Portfolio+Website;Showcasing+Projects+%26+Skills" alt="Typing animation" />
 </p>
 
+<p align="center">
+  <a href="https://aniket-portfolio-react.vercel.app/">
+    <img src="https://img.shields.io/badge/Live%20Demo-Visit%20Now-00F7FF?style=for-the-badge&logo=vercel&logoColor=black" />
+  </a>
+</p>
+
 ---
 
 ## 📦 Overview  
 
 This is my **personal portfolio website** showcasing my projects, certifications, and achievements.  
 Currently **under active development** — the first working version will be released by the end of this semester.
+
+---
+
+## 🚀 Live Demo  
+
+🌐 **Check out the live website here:**  
+👉 https://aniket-portfolio-react.vercel.app/
 
 ---
 
@@ -34,6 +47,7 @@ Currently **under active development** — the first working version will be rel
 ---
 
 ## 🗂️ Project Structure (planned)  
+
 <pre>
 portfolio/
 ├── public/                 # Images, icons, etc
@@ -116,8 +130,6 @@ This portfolio will help me:
 ---
 
 ## 🌐 Connect with Me  
-
-Feel free to reach out and connect!
 
 <p align="center">
   <a href="https://github.com/GxAniket"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"></a>

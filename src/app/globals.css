@@ -23,9 +23,9 @@ body {
 .deneme {
   background-image: url("/profile.jpg"); 
   background-position: center;
-  width: 380px;
-  height: 380px;
-  background-size: cover;
+  width: 375px;
+  height: 390px;
+  background-size: 89%;
   box-shadow: 0 5px 5px 5px rgba(34, 211, 238, 0.4);
   animation: animate 5s ease-in-out infinite;
   transition: all 1s ease-in-out;
@@ -42,8 +42,10 @@ body {
 }
 
 @media (max-width: 768px) {
-  .deneme {
-    width: 280px;
-    height: 280px;
-  }
+    .deneme {
+        width: 279px;
+        height: 290px;
+        padding: 15px; /* Mobile ke liye thoda kam padding */
+        background-size: 90%;
+    }
 }
