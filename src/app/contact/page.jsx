@@ -33,7 +33,7 @@ const ContactPage = () => {
       title: "Instagram",
       value: "@aniket_sundriyal", 
       icon: <FaInstagram className="w-5 h-5 lg:w-6 lg:h-6" />,
-      link: "https://instagram.com/aniket_sundriyal", 
+      link: "https://instagram.com/whitehat_aniket", 
       color: "hover:text-pink-400 hover:border-pink-400/50 hover:bg-pink-500/10",
     },
     {
