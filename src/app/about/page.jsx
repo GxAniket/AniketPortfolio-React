@@ -22,6 +22,18 @@ const skills = [
 
 const experiences = [
   {
+    title: "Java Developer Intern",
+    company: "Oasis Infobyte",
+    type: "Internship · Remote",
+    period: "jun 2026 – jul 2026",
+    accent: "#22d3ee",
+    points: [
+      "Worked on Java-based development projects using OOP.",
+      "Solved practical coding and problem-solving tasks.",
+      "Built efficient Java applications using best practices."
+    ],
+  },
+  {
     title: "Freelance Software Engineer",
     company: "Freelancer.com",
     type: "Freelance · Remote",
@@ -63,7 +75,7 @@ const education = [
     school: "Uttaranchal University",
     degree: "B.Tech – Computer Science & Engineering",
     period: "Aug 2023 – Aug 2027",
-    grade: "7.61 CGPA",
+    grade: "7.67 CGPA",
     accent: "#22d3ee",
     note: "Focus on Software Engineering and Full-Stack Development",
   },
