@@ -1,9 +1,8 @@
 @import "tailwindcss";
 
-/* Humne Light/Dark mode ka logic hata kar background ko hamesha Black force kar diya hai */
 :root {
-  --background: #000000; /* Dark black for space background */
-  --foreground: #ffffff; /* White text */
+  --background: #000000;
+  --foreground: #ffffff;
 }
 
 @theme inline {
@@ -19,7 +18,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Aapka Morphing Image Effect (Yahan niche apka .deneme wala code waise ka waisa hi rahega) */
 .deneme {
   background-image: url("/profile.jpg"); 
   background-position: center;
@@ -45,7 +43,7 @@ body {
     .deneme {
         width: 279px;
         height: 290px;
-        padding: 15px; /* Mobile ke liye thoda kam padding */
+        padding: 15px;
         background-size: 90%;
     }
 }
