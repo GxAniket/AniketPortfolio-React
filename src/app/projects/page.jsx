@@ -60,7 +60,7 @@ const projectData = [
     title: "Multi-Disease Prediction System",
     description:
       "Machine learning-based web application built with Flask that predicts disease risk using trained ML models.",
-    tech: ["Python", "Flask", "Machine Learning", "Scikit-learn"],
+    tech: ["Python", "Flask", "Machine Learning", "Scikit-learn", "html", "CSS", "JavaScript"],
     image: "/project5.png",
     github:
       "https://github.com/GxAniket/diabetes-prediction-app",
