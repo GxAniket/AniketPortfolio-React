@@ -1,8 +1,10 @@
 "use client";
+
 import Brain from "@/components/Brain";
 import { motion, useScroll } from "framer-motion";
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 /* ─── Section title helper ─── */
 const SectionTitle = ({ children }) => (
@@ -14,13 +16,40 @@ const SectionTitle = ({ children }) => (
 
 /* ─── Data ─── */
 const skills = [
-  "MERN Stack", "MongoDB", "Express.js", "React", "Node.js",
-  "Java", "DSA", "Spring Boot", "Python", "Machine Learning",
-  "HTML", "CSS", "JavaScript", "Tailwind CSS",
-  "Unity (C#)", "Linux", "MySQL", "Git", "GitHub", "Postman",
+  "MERN Stack",
+  "MongoDB",
+  "Express.js",
+  "React",
+  "Node.js",
+  "Java",
+  "DSA",
+  "Spring Boot",
+  "Python",
+  "Machine Learning",
+  "HTML",
+  "CSS",
+  "JavaScript",
+  "Tailwind CSS",
+  "PostgreSQL",
+  "Linux",
+  "MySQL",
+  "Git",
+  "GitHub",
+  "Postman",
 ];
 
 const experiences = [
+  {
+  title: "Java Full Stack Developer Intern",
+  company: "Infosys Springboard",
+  type: "Internship · Remote, India",
+  period: "Aug 2026 – Present",
+  accent: "#22d3ee",
+  points: [
+    "Gaining hands-on experience in Java full-stack development, including backend development, REST APIs, databases, and web technologies.",
+    "Developing and integrating scalable applications while strengthening Java, Spring Boot, SQL, and API integration skills.",
+  ],
+  },
   {
     title: "Java Developer Intern",
     company: "Oasis Infobyte",
@@ -30,7 +59,7 @@ const experiences = [
     points: [
       "Worked on Java-based development projects using OOP.",
       "Solved practical coding and problem-solving tasks.",
-      "Built efficient Java applications using best practices."
+      "Built efficient Java applications using best practices.",
     ],
   },
   {
@@ -96,8 +125,58 @@ const education = [
 ];
 
 const AboutPage = () => {
-  const containerRef = useRef();
-  const { scrollYProgress } = useScroll({ container: containerRef });
+  const containerRef = useRef(null);
+  const router = useRouter();
+
+  const { scrollYProgress } = useScroll({
+    container: containerRef,
+  });
+
+  useEffect(() => {
+    const container = containerRef.current;
+
+    if (!container) return;
+
+    let isNavigating = false;
+
+    const handleWheel = (e) => {
+      if (isNavigating) return;
+
+      const isAtTop = container.scrollTop <= 5;
+
+      const isAtBottom =
+        container.scrollTop + container.clientHeight >=
+        container.scrollHeight - 5;
+
+      // DOWN at bottom → Projects
+      if (e.deltaY > 0 && isAtBottom) {
+        isNavigating = true;
+        router.push("/projects");
+
+        setTimeout(() => {
+          isNavigating = false;
+        }, 1000);
+      }
+
+      // UP at top → Home
+      if (e.deltaY < 0 && isAtTop) {
+        isNavigating = true;
+        router.push("/");
+
+        setTimeout(() => {
+          isNavigating = false;
+        }, 1000);
+      }
+    };
+
+    container.addEventListener("wheel", handleWheel, {
+      passive: true,
+    });
+
+    return () => {
+      container.removeEventListener("wheel", handleWheel);
+    };
+  }, [router]);
 
   return (
     <motion.div
@@ -107,24 +186,34 @@ const AboutPage = () => {
       transition={{ duration: 0.8 }}
     >
       <div
-        className="h-full overflow-y-scroll overflow-x-hidden lg:flex"
         ref={containerRef}
+        className="h-full overflow-y-scroll overflow-x-hidden lg:flex"
       >
-        {/* ════════ LEFT CONTENT COLUMN ════════ */}
-        <div className="w-full lg:w-[50%] px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20
-                        pt-28 sm:pt-36 pb-40
-                        flex flex-col gap-16 text-white z-20 relative">
-
-          {/* ── BIOGRAPHY ── */}
+        {/* LEFT CONTENT */}
+        <div
+          className="
+            w-full lg:w-[50%]
+            px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20
+            pt-28 sm:pt-36 pb-40
+            flex flex-col gap-16
+            text-white z-20 relative
+          "
+        >
+          {/* BIOGRAPHY */}
           <section className="flex flex-col gap-6">
             <SectionTitle>Biography</SectionTitle>
 
-            <div className="flex items-center gap-5 sm:gap-6 p-4 rounded-xl
-                            bg-white/[0.03] border border-white/[0.08]">
-              <div className="relative flex-shrink-0 w-20 h-20 sm:w-[88px] sm:h-[88px]
-                              rounded-full overflow-hidden
-                              ring-2 ring-cyan-400/70 ring-offset-2 ring-offset-black
-                              shadow-[0_0_24px_rgba(34,211,238,0.3)]">
+            <div className="flex items-center gap-5 sm:gap-6 p-4 rounded-xl bg-white/[0.03] border border-white/[0.08]">
+              <div
+                className="
+                  relative flex-shrink-0
+                  w-20 h-20 sm:w-[88px] sm:h-[88px]
+                  rounded-full overflow-hidden
+                  ring-2 ring-cyan-400/70
+                  ring-offset-2 ring-offset-black
+                  shadow-[0_0_24px_rgba(34,211,238,0.3)]
+                "
+              >
                 <Image
                   src="/profile.jpg"
                   alt="Aniket Sundriyal"
@@ -136,40 +225,68 @@ const AboutPage = () => {
               </div>
 
               <div className="flex flex-col gap-0.5">
-                <p className="text-xl font-bold text-white">Aniket Sundriyal</p>
-                <p className="text-cyan-400 text-sm font-medium">B.Tech CSE student</p>
-                <p className="text-gray-400 text-sm">Uttaranchal University</p>
+                <p className="text-xl font-bold text-white">
+                  Aniket Sundriyal
+                </p>
+                <p className="text-cyan-400 text-sm font-medium">
+                  B.Tech CSE student
+                </p>
+                <p className="text-gray-400 text-sm">
+                  Uttaranchal University
+                </p>
               </div>
             </div>
 
             <div className="text-[15px] text-gray-300 leading-relaxed max-w-xl flex flex-col gap-4">
               <p>
-                I am Aniket Sundriyal, a B.Tech Computer Science student at Uttaranchal University with a strong interest in Software Engineering and Full-Stack Development.
+                I am Aniket Sundriyal, a B.Tech Computer Science student at
+                Uttaranchal University with a strong interest in Software
+                Engineering and Full-Stack Development.
               </p>
+
               <p>
-                I enjoy building practical and impactful projects that solve real-world problems. My experience includes developing full-stack web applications, AI-based prediction systems, and exploring game development using Unity.
+                I enjoy building practical and impactful projects that solve
+                real-world problems. My experience includes developing
+                full-stack web applications, AI-based prediction systems, and
+                exploring game development using Unity.
               </p>
+
               <p>
-                Currently, I am strengthening my skills in React, Node.js, Spring Boot, and Data Structures & Algorithms in Java. I also have hands-on experience building projects such as an AI-based healthcare assistant and a file encryption/decryption tool. Additionally, I have developed small games using Unity, including an open-world car simulation project.
+                Currently, I am strengthening my skills in React, Node.js,
+                Spring Boot, and Data Structures & Algorithms in Java. I also
+                have hands-on experience building projects such as an AI-based
+                healthcare assistant and a file encryption/decryption tool.
+                Additionally, I have developed small games using Unity,
+                including an open-world car simulation project.
               </p>
+
               <p className="italic text-cyan-300 font-medium">
-                I am actively seeking internship opportunities where I can contribute, learn, and grow as a software developer. Let’s connect and collaborate!
+                I am actively seeking internship opportunities where I can
+                contribute, learn, and grow as a software developer. Let’s
+                connect and collaborate!
               </p>
             </div>
           </section>
 
-          {/* ── TECHNICAL SKILLS ── */}
+          {/* SKILLS */}
           <section className="flex flex-col gap-5">
             <SectionTitle>Technical Skills</SectionTitle>
+
             <div className="flex gap-2 flex-wrap">
               {skills.map((skill) => (
                 <div
                   key={skill}
-                  className="rounded-md px-3 py-1.5 text-xs font-medium tracking-wide
-                             bg-white/[0.04] text-cyan-100
-                             border border-white/[0.08]
-                             hover:bg-cyan-500/20 hover:border-cyan-400/50
-                             hover:text-white transition-all duration-200 cursor-default"
+                  className="
+                    rounded-md px-3 py-1.5
+                    text-xs font-medium tracking-wide
+                    bg-white/[0.04]
+                    text-cyan-100
+                    border border-white/[0.08]
+                    hover:bg-cyan-500/20
+                    hover:border-cyan-400/50
+                    hover:text-white
+                    transition-all duration-200
+                  "
                 >
                   {skill}
                 </div>
@@ -177,28 +294,42 @@ const AboutPage = () => {
             </div>
           </section>
 
-          {/* ── EXPERIENCE ── */}
+          {/* EXPERIENCE */}
           <section className="flex flex-col gap-5">
             <SectionTitle>Experience</SectionTitle>
+
             <div className="flex flex-col gap-4">
               {experiences.map((exp) => (
                 <div
                   key={exp.title}
                   className="relative bg-white/[0.03] rounded-xl p-5 border border-white/[0.07]"
-                  style={{ borderLeftColor: exp.accent, borderLeftWidth: "3px" }}
+                  style={{
+                    borderLeftColor: exp.accent,
+                    borderLeftWidth: "3px",
+                  }}
                 >
                   <div className="flex items-start justify-between gap-3 flex-wrap">
                     <div>
-                      <h2 className="text-[15px] font-bold text-white">{exp.title}</h2>
-                      <p className="text-gray-400 text-sm mt-0.5">{exp.company} · {exp.type}</p>
+                      <h2 className="text-[15px] font-bold text-white">
+                        {exp.title}
+                      </h2>
+
+                      <p className="text-gray-400 text-sm mt-0.5">
+                        {exp.company} · {exp.type}
+                      </p>
                     </div>
+
                     <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-cyan-400">
                       {exp.period}
                     </span>
                   </div>
+
                   <ul className="mt-3 space-y-1.5">
                     {exp.points.map((pt) => (
-                      <li key={pt} className="text-gray-400 text-sm flex gap-2.5 items-start">
+                      <li
+                        key={pt}
+                        className="text-gray-400 text-sm flex gap-2.5 items-start"
+                      >
                         <span className="mt-[6px] flex-shrink-0 w-[5px] h-[5px] rounded-full bg-cyan-400" />
                         {pt}
                       </li>
@@ -209,9 +340,10 @@ const AboutPage = () => {
             </div>
           </section>
 
-          {/* ── EDUCATION ── */}
+          {/* EDUCATION */}
           <section className="flex flex-col gap-5">
             <SectionTitle>Education</SectionTitle>
+
             <div className="flex flex-col gap-4">
               {education.map((edu) => (
                 <div
@@ -220,26 +352,51 @@ const AboutPage = () => {
                 >
                   <div className="flex items-start justify-between gap-3 flex-wrap">
                     <div>
-                      <h2 className="text-[15px] font-bold text-white">{edu.school}</h2>
-                      <p className="text-gray-300 text-sm mt-0.5">{edu.degree}</p>
+                      <h2 className="text-[15px] font-bold text-white">
+                        {edu.school}
+                      </h2>
+
+                      <p className="text-gray-300 text-sm mt-0.5">
+                        {edu.degree}
+                      </p>
                     </div>
+
                     <div className="text-right">
-                      <p className="text-xs text-gray-400">{edu.period}</p>
-                      {edu.grade && <p className="text-cyan-400 text-xs font-bold">{edu.grade}</p>}
+                      <p className="text-xs text-gray-400">
+                        {edu.period}
+                      </p>
+
+                      {edu.grade && (
+                        <p className="text-cyan-400 text-xs font-bold">
+                          {edu.grade}
+                        </p>
+                      )}
                     </div>
                   </div>
-                  <p className="mt-2 text-gray-500 text-[11px]">{edu.note}</p>
+
+                  <p className="mt-2 text-gray-500 text-[11px]">
+                    {edu.note}
+                  </p>
                 </div>
               ))}
             </div>
           </section>
         </div>
 
-        {/* ════════ RIGHT — BRAIN (LARGE FIX) ════════ */}
+        {/* RIGHT — BRAIN */}
         <div className="hidden lg:flex lg:w-[50%] sticky top-0 h-screen z-10 pointer-events-none items-center justify-center">
-          <div className="w-full h-full flex items-center justify-center 
-                          scale-[0.8] xl:scale-[0.9] 2xl:scale-[1.0] 
-                          translate-x-10 translate-y-4 opacity-90">
+          <div
+            className="
+              w-full h-full
+              flex items-center justify-center
+              scale-[0.8]
+              xl:scale-[0.9]
+              2xl:scale-[1.0]
+              translate-x-10
+              translate-y-4
+              opacity-90
+            "
+          >
             <Brain scrollYProgress={scrollYProgress} />
           </div>
         </div>
