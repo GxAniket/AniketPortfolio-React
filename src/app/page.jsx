@@ -59,9 +59,7 @@ export default function Home() {
           </h1>
 
           <p className="md:text-xl text-gray-300">
-            I’m a B.Tech Computer Science student passionate about building
-            modern web applications and AI-based projects. I love solving
-            real-world problems using clean and efficient code.
+            B.Tech Computer Science Engineering student with hands-on experience in Java, Spring Boot, React.js, Node.js, Python, and SQL. Currently working as a Java Full Stack Developer Intern at Infosys Springboard.
           </p>
 
           <Social />

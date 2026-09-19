@@ -245,25 +245,15 @@ const AboutPage = () => {
               </p>
 
               <p>
-                I enjoy building practical and impactful projects that solve
-                real-world problems. My experience includes developing
-                full-stack web applications, AI-based prediction systems, and
-                exploring game development using Unity.
+                I enjoy building practical projects and applying my technical knowledge to solve real-world problems. My experience includes developing full-stack web applications, machine learning-based applications, and working with APIs and databases.
               </p>
 
               <p>
-                Currently, I am strengthening my skills in React, Node.js,
-                Spring Boot, and Data Structures & Algorithms in Java. I also
-                have hands-on experience building projects such as an AI-based
-                healthcare assistant and a file encryption/decryption tool.
-                Additionally, I have developed small games using Unity,
-                including an open-world car simulation project.
+                Currently, I am working as a Java Full Stack Developer Intern at Infosys Springboard, where I am strengthening my skills in Java, Spring Boot, REST APIs, SQL, and full-stack development. I am also improving my Data Structures and Algorithms skills using Java.
               </p>
 
               <p className="italic text-cyan-300 font-medium">
-                I am actively seeking internship opportunities where I can
-                contribute, learn, and grow as a software developer. Let’s
-                connect and collaborate!
+               I have worked on projects such as an AI-based healthcare assistant, a file encryption and decryption tool, a diabetes prediction application, an e-commerce application, and a live delivery tracking and shipment management platform.
               </p>
             </div>
           </section>
