@@ -79,6 +79,18 @@ const projectData = [
     live:
       "https://github.com/GxAniket/ecommerce-fullstack-app",
   },
+  {
+  id: 7,
+  title: "Integrated Logistics Intelligence Platform",
+  description:
+    "Full-stack logistics platform developed during my Infosys Springboard internship for shipment management, live tracking, ETA calculation, and delivery monitoring.",
+  tech: ["React", "Java", "Spring Boot", "PostgreSQL", "JWT", "REST API"],
+  image: "/project7.png",
+  github:
+    "https://github.com/GxAniket/Integrated-Logistics-Intelligence-Platform",
+  live:
+    "https://github.com/GxAniket/Integrated-Logistics-Intelligence-Platform",
+},
 ];
 
 export default function Projects() {
