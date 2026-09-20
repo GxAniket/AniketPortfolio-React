@@ -76,9 +76,14 @@ portfolio/
 
 ---
 
-## 📸 Screenshots  
+## 📸 Screenshots 1
 
 <img width="1536" height="1024" alt="portfolio" src="https://github.com/user-attachments/assets/103d8cb7-723d-4340-9056-1545c1c6fd56" />
+
+---
+## 📸 Screenshots 2
+
+<img width="1885" height="895" alt="Screenshot 2026-09-20 233958" src="https://github.com/user-attachments/assets/5777c00a-289b-4069-9e67-9fcfcd7e0f04" />
 
 ---
 
