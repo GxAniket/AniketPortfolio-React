@@ -12,6 +12,8 @@ export default function Animation() {
         2000,
         "Software Engineer",
         2000,
+        "Unity Game Developer",
+        2000,
       ]}
       speed={50}
       repeat={Infinity}
