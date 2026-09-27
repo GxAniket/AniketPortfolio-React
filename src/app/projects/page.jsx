@@ -91,6 +91,30 @@ const projectData = [
   live:
     "https://github.com/GxAniket/Integrated-Logistics-Intelligence-Platform",
 },
+{
+  id: 8,
+  title: "Todo App",
+  description:
+    "A modern personal productivity and task management application built with React.js.",
+  tech: ["React", "Typescript", "Tailwind CSS", "Vite", "Local Storage"],
+  image: "/project8.png",
+  github:
+    "https://github.com/GxAniket/todo-app",
+  live:
+    "https://todo-app-two-sigma-85.vercel.app",
+},
+{
+  id: 9,
+  title: "UIT Campus Fighters",
+  description:
+  "A Unity-based 3D college fighting game featuring student characters, combat, combos, enemy AI, and university arenas.",
+  tech: ["Unity", "C#", "3D Game Development", "Game Design"],
+  image: "/project9.png",
+  github:
+    "https://github.com/GxAniket/Uit-Campus-Fighters",
+  live:
+    "https://github.com/GxAniket/Uit-Campus-Fighters",
+}
 ];
 
 export default function Projects() {
