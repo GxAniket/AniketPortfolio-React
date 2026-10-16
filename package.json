@@ -29,5 +29,19 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
     "tailwindcss": "^4"
+  },
+  "overrides": {
+    "@tailwindcss/postcss": {
+      "nanoid": "5.1.16"
+    },
+    "nanoid": {
+      "nanoid": "5.1.16"
+    },
+    "next": {
+      "nanoid": "5.1.16"
+    },
+    "postcss": {
+      "nanoid": "5.1.16"
+    }
   }
 }
