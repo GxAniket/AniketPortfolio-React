@@ -85,7 +85,7 @@ const projectData = [
     github:
       "https://github.com/GxAniket/Integrated-Logistics-Intelligence-Platform",
     live:
-      "https://github.com/GxAniket/Integrated-Logistics-Intelligence-Platform",
+      "https://integrated-logistics-intelligence-p.vercel.app/",
   },
   {
     id: 8,
