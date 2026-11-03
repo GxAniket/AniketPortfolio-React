@@ -249,6 +249,9 @@ const projectData = [
     title: "Encryptor / Decryptor Tool",
     description:
       "A browser-based file encryptor and decryptor using HTML, CSS, and JavaScript.",
+    year: "Year 1",
+    timeline: "Semester 2",
+    status: "Completed",
     tech: ["HTML", "CSS", "JavaScript", "WebCrypto"],
     image: "/project1.png",
     github: "https://github.com/GxAniket/encryptor-decryptor-version-1",
@@ -259,6 +262,9 @@ const projectData = [
     title: "Portfolio Website",
     description:
       "Responsive personal portfolio showcasing projects and skills.",
+    year: "Year 3",
+    timeline: "Semester 5 – 6",
+    status: "Completed",
     tech: ["Next.js", "React", "Tailwind CSS", "Framer Motion"],
     image: "/project2.png",
     github: "https://github.com/GxAniket/Aniket-Portfolio-01",
@@ -269,6 +275,9 @@ const projectData = [
     title: "Music Player",
     description:
       "Frontend-based music player with interactive UI controls.",
+    year: "Year 1",
+    timeline: "Semester 2",
+    status: "Completed",
     tech: ["HTML5", "CSS3", "JavaScript", "Frontend UI"],
     image: "/project3.png",
     github: "https://github.com/GxAniket/music-player",
@@ -279,6 +288,9 @@ const projectData = [
     title: "Weather App (Next.js)",
     description:
       "Modern weather application built with Next.js and OpenWeatherMap API featuring real-time weather updates, temperature, humidity, wind speed, and responsive UI.",
+    year: "Year 4",
+    timeline: "Semester 7",
+    status: "In Progress",
     tech: ["Next.js", "OpenWeatherMap API", "React"],
     image: "/project4.png",
     github: "https://github.com/GxAniket/weather-app-nextjs",
@@ -289,6 +301,9 @@ const projectData = [
     title: "Multi-Disease Prediction System",
     description:
       "Machine learning-based web application built with Flask that predicts disease risk using trained ML models.",
+    year: "Year 3",
+    timeline: "YBI Foundation Internship",
+    status: "Completed",
     tech: [
       "Python",
       "Flask",
@@ -307,6 +322,9 @@ const projectData = [
     title: "E-Commerce Web Application",
     description:
       "Full-stack e-commerce platform featuring authentication, product listings, cart management, and order processing.",
+    year: "In Progress",
+    timeline: "Development Ongoing",
+    status: "In Progress",
     tech: ["MongoDB", "Express", "React", "Node.js", "MERN"],
     image: "/profile6.png",
     github: "https://github.com/GxAniket/ecommerce-fullstack-app",
@@ -317,6 +335,9 @@ const projectData = [
     title: "Integrated Logistics Intelligence Platform",
     description:
       "Full-stack logistics platform developed during my Infosys Springboard internship for shipment management, live tracking, ETA calculation, and delivery monitoring.",
+    year: "2026",
+    timeline: "Aug – Nov · Infosys Springboard Internship",
+    status: "Completed",
     tech: ["React", "Java", "Spring Boot", "PostgreSQL", "JWT", "REST API"],
     image: "/project7.png",
     github:
@@ -329,6 +350,9 @@ const projectData = [
     title: "Todo App",
     description:
       "A modern personal productivity and task management application built with React.js.",
+    year: "Year 3",
+    timeline: "Semester 6",
+    status: "Completed · Issues Remaining",
     tech: ["React", "TypeScript", "Tailwind CSS", "Vite", "Local Storage"],
     image: "/project8.png",
     github: "https://github.com/GxAniket/todo-app",
@@ -339,6 +363,9 @@ const projectData = [
     title: "UIT Campus Fighters",
     description:
       "A Unity-based 3D college fighting game featuring student characters, combat, combos, enemy AI, and university arenas.",
+    year: "Year 4",
+    timeline: "Semester 7",
+    status: "Planning Phase",
     tech: ["Unity", "C#", "3D Game Development", "Game Design"],
     image: "/project9.png",
     github: "https://github.com/GxAniket/Uit-Campus-Fighters",
@@ -441,10 +468,69 @@ export default function Projects() {
                     {project.title}
                   </h2>
 
+                  {/* DEVELOPMENT TIMELINE */}
+                  <div className="mb-4 flex flex-wrap items-center gap-2">
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-xs font-semibold text-cyan-300">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="13"
+                        height="13"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <rect
+                          width="18"
+                          height="18"
+                          x="3"
+                          y="4"
+                          rx="2"
+                        />
+                        <path d="M16 2v4M8 2v4M3 10h18" />
+                      </svg>
+                      {project.year}
+                    </span>
+
+                    <span className="text-xs text-gray-400">
+                      {project.timeline}
+                    </span>
+                  </div>
+
+                  {/* PROJECT STATUS */}
+                  <div className="mb-4">
+                    <span
+                      className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all duration-300 ${
+                        project.status === "Completed"
+                          ? "border-green-400/50 bg-green-500/15 text-green-300 shadow-[0_0_12px_rgba(34,197,94,0.45)]"
+                          : project.status === "Planning Phase" ||
+                            project.status === "Completed · Issues Remaining"
+                          ? "border-red-400/50 bg-red-500/15 text-red-300 shadow-[0_0_12px_rgba(239,68,68,0.45)]"
+                          : "border-yellow-400/50 bg-yellow-500/15 text-yellow-300 shadow-[0_0_12px_rgba(234,179,8,0.45)]"
+                      }`}
+                    >
+                      <span
+                        className={`h-1.5 w-1.5 rounded-full ${
+                          project.status === "Completed"
+                            ? "bg-green-400 shadow-[0_0_6px_rgba(34,197,94,0.9)]"
+                            : project.status === "Planning Phase" ||
+                              project.status === "Completed · Issues Remaining"
+                            ? "bg-red-400 shadow-[0_0_6px_rgba(239,68,68,0.9)]"
+                            : "bg-yellow-400 shadow-[0_0_6px_rgba(234,179,8,0.9)]"
+                        }`}
+                      />
+                      {project.status}
+                    </span>
+                  </div>
+
+                  {/* ORIGINAL PROJECT DESCRIPTION */}
                   <p className="mb-6 flex-grow text-sm leading-relaxed text-gray-300 md:text-base">
                     {project.description}
                   </p>
 
+                  {/* ORIGINAL TECHNOLOGY TAGS */}
                   <div className="mb-6 flex flex-wrap gap-2">
                     {project.tech.map((tag) => (
                       <span
@@ -456,23 +542,28 @@ export default function Projects() {
                     ))}
                   </div>
 
+                  {/* PROJECT BUTTONS */}
                   <div className="mt-auto flex gap-4">
+                    {/* GITHUB — CYAN GLASS / LIGHT SWEEP HOVER */}
                     <Link
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-1/2 rounded-lg border border-gray-600 bg-gray-800 px-4 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-gray-700"
+                      className="group relative isolate w-1/2 overflow-hidden rounded-lg border border-gray-600 bg-gray-800 px-4 py-2 text-center text-sm font-semibold text-white transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:border-emerald-400 hover:bg-gray-700 hover:shadow-[0_8px_25px_rgba(16,185,129,0.35)] active:translate-y-0 active:scale-95"
                     >
-                      GitHub
+                      <span className="pointer-events-none absolute inset-0 -translate-x-[130%] skew-x-[-20deg] bg-gradient-to-r from-transparent via-emerald-300/25 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-[130%]" />
+                      <span className="relative z-10">GitHub</span>
                     </Link>
 
+                    {/* LIVE DEMO — CYAN / BLUE GRADIENT HOVER */}
                     <Link
                       href={project.live}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-1/2 rounded-lg bg-cyan-600 px-4 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-cyan-500"
+                      className="group relative isolate w-1/2 overflow-hidden rounded-lg bg-cyan-600 px-4 py-2 text-center text-sm font-semibold text-white transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:bg-gradient-to-r hover:from-cyan-500 hover:to-blue-600 hover:shadow-[0_8px_28px_rgba(6,182,212,0.45)] active:translate-y-0 active:scale-95"
                     >
-                      Live Demo
+                      <span className="pointer-events-none absolute inset-0 -translate-x-[130%] skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-[130%]" />
+                      <span className="relative z-10">Live Demo</span>
                     </Link>
                   </div>
                 </div>
