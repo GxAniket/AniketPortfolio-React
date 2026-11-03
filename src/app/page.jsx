@@ -68,7 +68,6 @@ const StarfieldBackground = () => {
     const drawStars = () => {
       ctx.clearRect(0, 0, width, height);
 
-      // Draw stars
       stars.forEach((star) => {
         const twinkle = reduceMotion
           ? 1
@@ -78,7 +77,6 @@ const StarfieldBackground = () => {
         const dy = star.y - mouse.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-        // Subtle mouse parallax
         let offsetX = 0;
         let offsetY = 0;
 
@@ -108,7 +106,6 @@ const StarfieldBackground = () => {
         ctx.shadowBlur = 0;
       });
 
-      // Mouse radial glow
       if (mouse.x > 0 && mouse.y > 0) {
         const gradient = ctx.createRadialGradient(
           mouse.x,
@@ -119,20 +116,9 @@ const StarfieldBackground = () => {
           180
         );
 
-        gradient.addColorStop(
-          0,
-          "rgba(34, 211, 238, 0.07)"
-        );
-
-        gradient.addColorStop(
-          0.5,
-          "rgba(168, 85, 247, 0.025)"
-        );
-
-        gradient.addColorStop(
-          1,
-          "rgba(0, 0, 0, 0)"
-        );
+        gradient.addColorStop(0, "rgba(34, 211, 238, 0.07)");
+        gradient.addColorStop(0.5, "rgba(168, 85, 247, 0.025)");
+        gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
 
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, width, height);
@@ -149,7 +135,6 @@ const StarfieldBackground = () => {
         star.y -= star.speed;
         star.phase += star.twinkleSpeed;
 
-        // Reset stars when they leave the screen
         if (star.y < -5) {
           star.y = height + 5;
           star.x = Math.random() * width;
@@ -247,7 +232,7 @@ export default function Home() {
 
   return (
     <motion.div
-      className="relative isolate h-full overflow-hidden"
+      className="relative isolate min-h-screen lg:h-full overflow-hidden"
       initial={{ y: "-200vh" }}
       animate={{ y: "0%" }}
       transition={{ duration: 1 }}
@@ -257,31 +242,39 @@ export default function Home() {
         <StarfieldBackground />
       </div>
 
-      {/* EXISTING HOME CONTENT */}
-      <div className="relative z-10 h-full flex flex-col lg:flex-row px-4 sm:px-8 md:px-12 lg:px-20 xl:px-48 p-20 gap-10">
+      {/* HOME CONTENT */}
+      <div className="relative z-10 min-h-screen lg:h-full flex flex-col lg:flex-row px-4 sm:px-8 md:px-12 lg:px-20 xl:px-48 py-24 lg:py-20 gap-5 lg:gap-10">
 
-        {/* LEFT SIDE */}
-        <div className="h-1/2 lg:h-full lg:w-5/12 flex justify-center items-center">
+        {/* LEFT SIDE — PROFILE IMAGE */}
+        <div className="min-h-[300px] sm:min-h-[320px] lg:min-h-0 lg:h-full lg:w-5/12 flex justify-center items-center">
           <div className="deneme"></div>
         </div>
 
-        {/* RIGHT SIDE */}
-        <div className="h-1/2 lg:h-full lg:w-1/2 flex flex-col gap-8 items-center lg:items-start justify-center text-white text-center lg:text-left">
+        {/* RIGHT SIDE — INTRODUCTION */}
+        <div className="h-auto lg:h-full lg:w-1/2 flex flex-col gap-5 lg:gap-8 items-center lg:items-start justify-center text-white text-center lg:text-left py-2 lg:py-0">
 
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+          {/* NAME AND ROLE */}
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
             Hi, I'm Aniket Sundriyal <br />
 
-            <span className="text-3xl md:text-4xl lg:text-5xl text-purple-400 mt-2 block">
+            <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-purple-400 mt-2 block min-h-[1.3em]">
               <Animation />
             </span>
           </h1>
 
-          <p className="md:text-xl text-gray-300">
-            I'm a final-year B.Tech CSE student at Uttaranchal University with experience in Java, Spring Boot, React, Node.js, Python, and SQL. I've completed a Java Full Stack Development internship at Infosys Springboard and enjoy building practical software projects.
+          {/* DESCRIPTION */}
+          <p className="text-sm sm:text-base md:text-xl text-gray-300 leading-relaxed">
+            I'm a final-year B.Tech CSE student at Uttaranchal University
+            with experience in Java, Spring Boot, React, Node.js, Python,
+            and SQL. I've completed a Java Full Stack Development internship
+            at Infosys Springboard and enjoy building practical software
+            projects.
           </p>
 
+          {/* SOCIAL ICONS — UNCHANGED */}
           <Social />
 
+          {/* RESUME AND CONTACT BUTTONS — UNCHANGED */}
           <Transmission />
 
         </div>
