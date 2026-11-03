@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useRef } from "react";
@@ -14,6 +15,242 @@ import {
 } from "react-icons/fa";
 import Link from "next/link";
 
+/* ─── Interactive Neural Network Background ─── */
+const NeuralNetworkBackground = () => {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animationFrame = null;
+    let particles = [];
+    let width = 0;
+    let height = 0;
+    let isVisible = true;
+
+    const mouse = { x: -1000, y: -1000 };
+
+    const isMobile = window.innerWidth < 768;
+    const particleCount = isMobile ? 45 : 95;
+    const connectionDistance = isMobile ? 105 : 145;
+    const mouseDistance = 180;
+
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    const resizeCanvas = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      width = window.innerWidth;
+      height = window.innerHeight;
+
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      particles = Array.from({ length: particleCount }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        radius: Math.random() * 1.5 + 0.6,
+        opacity: Math.random() * 0.5 + 0.25,
+        phase: Math.random() * Math.PI * 2,
+      }));
+
+      if (reduceMotion) {
+        drawNetwork();
+      }
+    };
+
+    const drawNetwork = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      // Connect nearby particles
+      for (let i = 0; i < particles.length; i++) {
+        const particle = particles[i];
+
+        for (let j = i + 1; j < particles.length; j++) {
+          const other = particles[j];
+
+          const dx = particle.x - other.x;
+          const dy = particle.y - other.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < connectionDistance) {
+            const opacity =
+              (1 - distance / connectionDistance) * 0.22;
+
+            ctx.beginPath();
+            ctx.moveTo(particle.x, particle.y);
+            ctx.lineTo(other.x, other.y);
+
+            ctx.strokeStyle = `rgba(34, 211, 238, ${opacity})`;
+            ctx.lineWidth = 0.7;
+            ctx.stroke();
+          }
+        }
+
+        // Mouse interaction
+        const mouseDx = particle.x - mouse.x;
+        const mouseDy = particle.y - mouse.y;
+
+        const mouseDist = Math.sqrt(
+          mouseDx * mouseDx + mouseDy * mouseDy
+        );
+
+        if (mouseDist < mouseDistance) {
+          const opacity =
+            (1 - mouseDist / mouseDistance) * 0.55;
+
+          ctx.beginPath();
+          ctx.moveTo(particle.x, particle.y);
+          ctx.lineTo(mouse.x, mouse.y);
+
+          ctx.strokeStyle = `rgba(34, 211, 238, ${opacity})`;
+          ctx.lineWidth = 0.9;
+          ctx.stroke();
+        }
+      }
+
+      // Draw glowing particles
+      particles.forEach((particle) => {
+        const glow = 0.7 + Math.sin(particle.phase) * 0.25;
+
+        ctx.beginPath();
+        ctx.arc(
+          particle.x,
+          particle.y,
+          particle.radius,
+          0,
+          Math.PI * 2
+        );
+
+        ctx.fillStyle = `rgba(34, 211, 238, ${
+          particle.opacity * glow
+        })`;
+
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = "rgba(34, 211, 238, 0.65)";
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      });
+
+      // Subtle cursor glow
+      if (mouse.x > 0 && mouse.y > 0) {
+        const gradient = ctx.createRadialGradient(
+          mouse.x,
+          mouse.y,
+          0,
+          mouse.x,
+          mouse.y,
+          150
+        );
+
+        gradient.addColorStop(
+          0,
+          "rgba(34, 211, 238, 0.045)"
+        );
+
+        gradient.addColorStop(
+          1,
+          "rgba(34, 211, 238, 0)"
+        );
+
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, width, height);
+      }
+    };
+
+    const animate = () => {
+      if (!isVisible) {
+        animationFrame = null;
+        return;
+      }
+
+      particles.forEach((particle) => {
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+        particle.phase += 0.025;
+
+        // Wrap particles around screen edges
+        if (particle.x < -10) particle.x = width + 10;
+        if (particle.x > width + 10) particle.x = -10;
+
+        if (particle.y < -10) particle.y = height + 10;
+        if (particle.y > height + 10) particle.y = -10;
+      });
+
+      drawNetwork();
+
+      animationFrame = requestAnimationFrame(animate);
+    };
+
+    const handleMouseMove = (event) => {
+      mouse.x = event.clientX;
+      mouse.y = event.clientY;
+    };
+
+    const handleMouseLeave = () => {
+      mouse.x = -1000;
+      mouse.y = -1000;
+    };
+
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+
+      if (isVisible && !reduceMotion && !animationFrame) {
+        animate();
+      } else if (!isVisible && animationFrame) {
+        cancelAnimationFrame(animationFrame);
+        animationFrame = null;
+      }
+    });
+
+    observer.observe(canvas);
+
+    window.addEventListener("resize", resizeCanvas);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseleave", handleMouseLeave);
+
+    resizeCanvas();
+
+    if (!reduceMotion) {
+      animate();
+    }
+
+    return () => {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+
+      observer.disconnect();
+
+      window.removeEventListener("resize", resizeCanvas);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      aria-hidden="true"
+      className="absolute inset-0 pointer-events-none"
+    />
+  );
+};
+
+/* ─── Contact Page ─── */
 const ContactPage = () => {
   const router = useRouter();
   const cardRef = useRef(null);
@@ -104,8 +341,7 @@ const ContactPage = () => {
       title: "Facebook",
       value: "Aniket Sundriyal",
       icon: <FaFacebook className="w-5 h-5 lg:w-6 lg:h-6" />,
-      link:
-        "https://www.facebook.com/profile.php?id=100022096712332",
+      link: "https://www.facebook.com/profile.php?id=100022096712332",
       color:
         "hover:text-blue-500 hover:border-blue-500/50 hover:bg-blue-600/10",
     },
@@ -113,12 +349,17 @@ const ContactPage = () => {
 
   return (
     <motion.div
-      className="h-full overflow-hidden"
+      className="relative isolate h-full overflow-hidden"
       initial={{ y: "-200vh" }}
       animate={{ y: "0%" }}
       transition={{ duration: 1 }}
     >
-      <div className="h-full flex flex-col lg:flex-row px-4 sm:px-8 md:px-12 lg:px-20 xl:px-48 py-4 lg:py-0 lg:items-center lg:justify-center lg:gap-8 pt-20 lg:pt-10">
+      {/* BACKGROUND — SAME NEURAL NETWORK AS ABOUT */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <NeuralNetworkBackground />
+      </div>
+
+      <div className="relative z-10 h-full flex flex-col lg:flex-row px-4 sm:px-8 md:px-12 lg:px-20 xl:px-48 py-4 lg:py-0 lg:items-center lg:justify-center lg:gap-8 pt-20 lg:pt-10">
 
         {/* MAP */}
         <div className="h-[200px] sm:h-[300px] lg:h-[450px] lg:w-1/2 flex items-center justify-center shrink-0">

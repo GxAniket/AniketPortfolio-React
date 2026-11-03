@@ -7,19 +7,44 @@ import { SiLeetcode } from "react-icons/si";
 
 export default function Social() {
   return (
-    <div className="flex gap-4 bg-white/10 backdrop-blur-lg px-5 py-3 rounded-full border border-white/20 shadow-lg">
+    <div className="flex items-center gap-5 bg-white/10 backdrop-blur-lg px-6 py-3 rounded-full border border-white/20 shadow-lg">
 
-      <Link href="https://github.com/GxAniket" target="_blank">
-        <FaGithub className="text-3xl text-white hover:scale-125 transition" />
+      {/* GitHub */}
+      <Link
+        href="https://github.com/GxAniket"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="GitHub"
+      >
+        <FaGithub className="text-3xl text-white hover:scale-125 hover:text-cyan-400 transition-all duration-300" />
       </Link>
 
-      <Link href="https://www.linkedin.com/in/aniket-sundriyal" target="_blank">
-        <FaLinkedin className="text-3xl text-white hover:scale-125 transition" />
+      {/* LinkedIn */}
+      <Link
+        href="https://www.linkedin.com/in/aniket-sundriyal"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="LinkedIn"
+      >
+        <FaLinkedin className="text-3xl text-white hover:scale-125 hover:text-cyan-400 transition-all duration-300" />
       </Link>
 
-      {/* Ye raha aapka naya LeetCode button */}
-      <Link href="https://leetcode.com/u/rxyU5V12At/" target="_blank">
-        <SiLeetcode className="text-3xl text-white hover:scale-125 transition" />
+      {/* LeetCode */}
+      <Link
+        href="https://leetcode.com/u/rxyU5V12At/"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="LeetCode"
+      >
+        <SiLeetcode className="text-3xl text-white hover:scale-125 hover:text-cyan-400 transition-all duration-300" />
+      </Link>
+
+      {/* Email */}
+      <Link
+        href="mailto:sundriyalaniket@gmail.com"
+        aria-label="Email"
+      >
+        <MdEmail className="text-3xl text-white hover:scale-125 hover:text-cyan-400 transition-all duration-300" />
       </Link>
 
     </div>

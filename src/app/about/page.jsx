@@ -1,3 +1,4 @@
+
 "use client";
 
 import Brain from "@/components/Brain";
@@ -5,6 +6,241 @@ import { motion, useScroll } from "framer-motion";
 import Image from "next/image";
 import { useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
+
+/* ─── Interactive Neural Network Background ─── */
+const NeuralNetworkBackground = () => {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animationFrame = null;
+    let particles = [];
+    let width = 0;
+    let height = 0;
+    let isVisible = true;
+
+    const mouse = { x: -1000, y: -1000 };
+
+    const isMobile = window.innerWidth < 768;
+    const particleCount = isMobile ? 45 : 95;
+    const connectionDistance = isMobile ? 105 : 145;
+    const mouseDistance = 180;
+
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    const resizeCanvas = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      width = window.innerWidth;
+      height = window.innerHeight;
+
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      particles = Array.from({ length: particleCount }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        radius: Math.random() * 1.5 + 0.6,
+        opacity: Math.random() * 0.5 + 0.25,
+        phase: Math.random() * Math.PI * 2,
+      }));
+
+      if (reduceMotion) {
+        drawNetwork();
+      }
+    };
+
+    const drawNetwork = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      // Connect nearby particles
+      for (let i = 0; i < particles.length; i++) {
+        const particle = particles[i];
+
+        for (let j = i + 1; j < particles.length; j++) {
+          const other = particles[j];
+
+          const dx = particle.x - other.x;
+          const dy = particle.y - other.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < connectionDistance) {
+            const opacity =
+              (1 - distance / connectionDistance) * 0.22;
+
+            ctx.beginPath();
+            ctx.moveTo(particle.x, particle.y);
+            ctx.lineTo(other.x, other.y);
+
+            ctx.strokeStyle = `rgba(34, 211, 238, ${opacity})`;
+            ctx.lineWidth = 0.7;
+            ctx.stroke();
+          }
+        }
+
+        // Mouse interaction
+        const mouseDx = particle.x - mouse.x;
+        const mouseDy = particle.y - mouse.y;
+
+        const mouseDist = Math.sqrt(
+          mouseDx * mouseDx + mouseDy * mouseDy
+        );
+
+        if (mouseDist < mouseDistance) {
+          const opacity =
+            (1 - mouseDist / mouseDistance) * 0.55;
+
+          ctx.beginPath();
+          ctx.moveTo(particle.x, particle.y);
+          ctx.lineTo(mouse.x, mouse.y);
+
+          ctx.strokeStyle = `rgba(34, 211, 238, ${opacity})`;
+          ctx.lineWidth = 0.9;
+          ctx.stroke();
+        }
+      }
+
+      // Draw glowing particles
+      particles.forEach((particle) => {
+        const glow = 0.7 + Math.sin(particle.phase) * 0.25;
+
+        ctx.beginPath();
+        ctx.arc(
+          particle.x,
+          particle.y,
+          particle.radius,
+          0,
+          Math.PI * 2
+        );
+
+        ctx.fillStyle = `rgba(34, 211, 238, ${
+          particle.opacity * glow
+        })`;
+
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = "rgba(34, 211, 238, 0.65)";
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      });
+
+      // Subtle cursor glow
+      if (mouse.x > 0 && mouse.y > 0) {
+        const gradient = ctx.createRadialGradient(
+          mouse.x,
+          mouse.y,
+          0,
+          mouse.x,
+          mouse.y,
+          150
+        );
+
+        gradient.addColorStop(
+          0,
+          "rgba(34, 211, 238, 0.045)"
+        );
+
+        gradient.addColorStop(
+          1,
+          "rgba(34, 211, 238, 0)"
+        );
+
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, width, height);
+      }
+    };
+
+    const animate = () => {
+      if (!isVisible) {
+        animationFrame = null;
+        return;
+      }
+
+      particles.forEach((particle) => {
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+        particle.phase += 0.025;
+
+        // Wrap particles around screen edges
+        if (particle.x < -10) particle.x = width + 10;
+        if (particle.x > width + 10) particle.x = -10;
+
+        if (particle.y < -10) particle.y = height + 10;
+        if (particle.y > height + 10) particle.y = -10;
+      });
+
+      drawNetwork();
+
+      animationFrame = requestAnimationFrame(animate);
+    };
+
+    const handleMouseMove = (event) => {
+      mouse.x = event.clientX;
+      mouse.y = event.clientY;
+    };
+
+    const handleMouseLeave = () => {
+      mouse.x = -1000;
+      mouse.y = -1000;
+    };
+
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+
+      if (isVisible && !reduceMotion && !animationFrame) {
+        animate();
+      } else if (!isVisible && animationFrame) {
+        cancelAnimationFrame(animationFrame);
+        animationFrame = null;
+      }
+    });
+
+    observer.observe(canvas);
+
+    window.addEventListener("resize", resizeCanvas);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseleave", handleMouseLeave);
+
+    resizeCanvas();
+
+    if (!reduceMotion) {
+      animate();
+    }
+
+    return () => {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+
+      observer.disconnect();
+
+      window.removeEventListener("resize", resizeCanvas);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      aria-hidden="true"
+      className="absolute inset-0 pointer-events-none"
+    />
+  );
+};
 
 /* ─── Section title helper ─── */
 const SectionTitle = ({ children }) => (
@@ -14,47 +250,50 @@ const SectionTitle = ({ children }) => (
   </h1>
 );
 
-/* ─── Data ─── */
+/* ─── Skills ─── */
 const skills = [
-  "MERN Stack",
-  "MongoDB",
-  "Express.js",
-  "React",
-  "Node.js",
   "Java",
-  "DSA",
-  "Spring Boot",
   "Python",
-  "Machine Learning",
+  "JavaScript",
+  "TypeScript",
   "HTML",
   "CSS",
-  "JavaScript",
+  "React",
   "Tailwind CSS",
-  "PostgreSQL",
-  "Linux",
+  "Node.js",
+  "Express.js",
+  "Spring Boot",
+  "MongoDB",
   "MySQL",
+  "PostgreSQL",
+  "DSA",
+  "Machine Learning",
+  "Unity Engine",
   "Git",
   "GitHub",
   "Postman",
+  "Linux",
+  "MERN Stack",
 ];
 
+/* ─── Experience ─── */
 const experiences = [
   {
-  title: "Java Full Stack Developer Intern",
-  company: "Infosys Springboard",
-  type: "Internship · Remote, India",
-  period: "Aug 2026 – Present",
-  accent: "#22d3ee",
-  points: [
-    "Gaining hands-on experience in Java full-stack development, including backend development, REST APIs, databases, and web technologies.",
-    "Developing and integrating scalable applications while strengthening Java, Spring Boot, SQL, and API integration skills.",
-  ],
+    title: "Java Full Stack Developer Intern",
+    company: "Infosys Springboard",
+    type: "Internship · Remote, India",
+    period: "August 2026 – November 2026",
+    accent: "#22d3ee",
+    points: [
+      "Gaining hands-on experience in Java full-stack development, including backend development, REST APIs, databases, and web technologies.",
+      "Developing and integrating scalable applications while strengthening Java, Spring Boot, PostgreSQL, and API integration skills.",
+    ],
   },
   {
     title: "Java Developer Intern",
     company: "Oasis Infobyte",
     type: "Internship · Remote",
-    period: "jun 2026 – jul 2026",
+    period: "June 2026 – July 2026",
     accent: "#22d3ee",
     points: [
       "Worked on Java-based development projects using OOP.",
@@ -63,22 +302,10 @@ const experiences = [
     ],
   },
   {
-    title: "Freelance Software Engineer",
-    company: "Freelancer.com",
-    type: "Freelance · Remote",
-    period: "Jan 2026 – Present",
-    accent: "#22d3ee",
-    points: [
-      "Developed full-stack web applications using MERN stack and Flask",
-      "Built secure file encryption tool using JavaScript (AES-based)",
-      "Delivered responsive UIs and impactful digital solutions",
-    ],
-  },
-  {
     title: "AI & Generative AI Intern",
     company: "YBI Foundation",
     type: "Internship · Remote",
-    period: "Jul 2025 · 1 mo",
+    period: "July 2025 - August 2025",
     accent: "#22d3ee",
     points: [
       "Worked on Artificial Intelligence and Generative AI implementations",
@@ -90,7 +317,7 @@ const experiences = [
     title: "Industrial Training in Python",
     company: "ThinkNEXT Technologies Pvt. Ltd.",
     type: "Internship · Hybrid, Mohali",
-    period: "Jun 2024 – Jul 2024",
+    period: "June 2024 – July 2024",
     accent: "#22d3ee",
     points: [
       "Completed industrial training focused on Python and Object-Oriented Programming (OOP)",
@@ -99,6 +326,7 @@ const experiences = [
   },
 ];
 
+/* ─── Education ─── */
 const education = [
   {
     school: "Uttaranchal University",
@@ -124,6 +352,7 @@ const education = [
   },
 ];
 
+/* ─── About Page ─── */
 const AboutPage = () => {
   const containerRef = useRef(null);
   const router = useRouter();
@@ -180,14 +409,19 @@ const AboutPage = () => {
 
   return (
     <motion.div
-      className="h-full"
+      className="relative isolate h-full overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
     >
+      {/* BACKGROUND — NEURAL NETWORK */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <NeuralNetworkBackground />
+      </div>
+
       <div
         ref={containerRef}
-        className="h-full overflow-y-scroll overflow-x-hidden lg:flex"
+        className="relative z-10 h-full overflow-y-scroll overflow-x-hidden lg:flex"
       >
         {/* LEFT CONTENT */}
         <div
@@ -228,9 +462,11 @@ const AboutPage = () => {
                 <p className="text-xl font-bold text-white">
                   Aniket Sundriyal
                 </p>
+
                 <p className="text-cyan-400 text-sm font-medium">
                   B.Tech CSE student
                 </p>
+
                 <p className="text-gray-400 text-sm">
                   Uttaranchal University
                 </p>
@@ -239,21 +475,27 @@ const AboutPage = () => {
 
             <div className="text-[15px] text-gray-300 leading-relaxed max-w-xl flex flex-col gap-4">
               <p>
-                I am Aniket Sundriyal, a B.Tech Computer Science student at
-                Uttaranchal University with a strong interest in Software
-                Engineering and Full-Stack Development.
+                I'm Aniket Sundriyal, a final-year B.Tech CSE student at
+                Uttaranchal University. I'm interested in software development
+                and enjoy learning new technologies by building projects.
               </p>
 
               <p>
-                I enjoy building practical projects and applying my technical knowledge to solve real-world problems. My experience includes developing full-stack web applications, machine learning-based applications, and working with APIs and databases.
+                I have experience working with Java, Spring Boot, React,
+                Node.js, Python, and SQL. I've also completed the Java Full
+                Stack Development internship at Infosys Springboard.
               </p>
 
               <p>
-                Currently, I am working as a Java Full Stack Developer Intern at Infosys Springboard, where I am strengthening my skills in Java, Spring Boot, REST APIs, SQL, and full-stack development. I am also improving my Data Structures and Algorithms skills using Java.
+                I regularly practice Data Structures and Algorithms using Java
+                and work on projects to improve my development skills.
               </p>
 
               <p className="italic text-cyan-300 font-medium">
-               I have worked on projects such as an AI-based healthcare assistant, a file encryption and decryption tool, a diabetes prediction application, an e-commerce application, and a live delivery tracking and shipment management platform.
+                Some of my projects include an AI-based healthcare assistant,
+                an encryption and decryption tool, a diabetes prediction
+                application, a MERN e-commerce platform, and a logistics
+                management system.
               </p>
             </div>
           </section>
@@ -298,8 +540,8 @@ const AboutPage = () => {
                     borderLeftWidth: "3px",
                   }}
                 >
-                  <div className="flex items-start justify-between gap-3 flex-wrap">
-                    <div>
+                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-2 lg:gap-3">
+                    <div className="min-w-0 flex-1">
                       <h2 className="text-[15px] font-bold text-white">
                         {exp.title}
                       </h2>
@@ -309,7 +551,7 @@ const AboutPage = () => {
                       </p>
                     </div>
 
-                    <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-cyan-400">
+                    <span className="self-start lg:self-auto shrink-0 whitespace-nowrap text-[11px] font-semibold px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-cyan-400">
                       {exp.period}
                     </span>
                   </div>
@@ -371,9 +613,15 @@ const AboutPage = () => {
               ))}
             </div>
           </section>
+
+          {/* EXTRA SCROLL SPACE AFTER EDUCATION */}
+          <div
+            className="w-full h-[80px] shrink-0"
+            aria-hidden="true"
+          />
         </div>
 
-        {/* RIGHT — BRAIN */}
+        {/* RIGHT — EXISTING BRAIN ANIMATION */}
         <div className="hidden lg:flex lg:w-[50%] sticky top-0 h-screen z-10 pointer-events-none items-center justify-center">
           <div
             className="

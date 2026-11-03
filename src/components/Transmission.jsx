@@ -7,7 +7,7 @@ import { FiDownload } from "react-icons/fi";
 function Transmission() {
   return (
     <div className="flex gap-4">
-      {/* Yahan href aur download name aniket_cv.pdf kar diya hai */}
+      {/* Download Resume button */}
       <a
         href="/Aniket_Sundriyal_Resume.pdf"
         download="Aniket_Sundriyal_Resume.pdf"
@@ -16,7 +16,7 @@ function Transmission() {
         Download Resume <FiDownload className="text-2xl ml-2" />
       </a>
       
-      {/* Contact button ka text color 'text-black' kar diya hai taaki wo dikhe */}
+      {/* Contact Me button */}
       <Link
         href="/contact"
         className="p-4 rounded-full flex bg-white text-black font-semibold hover:bg-gray-200 hover:scale-[1.15] transition duration-300"
