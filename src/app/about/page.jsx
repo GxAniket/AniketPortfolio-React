@@ -1,11 +1,10 @@
-
 "use client";
 
 import Brain from "@/components/Brain";
 import { motion, useScroll } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { useRef, useEffect } from "react";
-import { useRouter } from "next/navigation";
 
 /* ─── Interactive Neural Network Background ─── */
 const NeuralNetworkBackground = () => {
@@ -67,7 +66,6 @@ const NeuralNetworkBackground = () => {
     const drawNetwork = () => {
       ctx.clearRect(0, 0, width, height);
 
-      // Connect nearby particles
       for (let i = 0; i < particles.length; i++) {
         const particle = particles[i];
 
@@ -92,7 +90,6 @@ const NeuralNetworkBackground = () => {
           }
         }
 
-        // Mouse interaction
         const mouseDx = particle.x - mouse.x;
         const mouseDy = particle.y - mouse.y;
 
@@ -114,7 +111,6 @@ const NeuralNetworkBackground = () => {
         }
       }
 
-      // Draw glowing particles
       particles.forEach((particle) => {
         const glow = 0.7 + Math.sin(particle.phase) * 0.25;
 
@@ -137,7 +133,6 @@ const NeuralNetworkBackground = () => {
         ctx.shadowBlur = 0;
       });
 
-      // Subtle cursor glow
       if (mouse.x > 0 && mouse.y > 0) {
         const gradient = ctx.createRadialGradient(
           mouse.x,
@@ -174,7 +169,6 @@ const NeuralNetworkBackground = () => {
         particle.y += particle.vy;
         particle.phase += 0.025;
 
-        // Wrap particles around screen edges
         if (particle.x < -10) particle.x = width + 10;
         if (particle.x > width + 10) particle.x = -10;
 
@@ -242,7 +236,7 @@ const NeuralNetworkBackground = () => {
   );
 };
 
-/* ─── Section title helper ─── */
+/* ─── Section Title ─── */
 const SectionTitle = ({ children }) => (
   <h1 className="font-bold text-2xl uppercase tracking-[0.18em] text-cyan-400 flex items-center gap-3">
     <span className="block w-8 h-[2px] bg-cyan-400 rounded-full flex-shrink-0" />
@@ -355,57 +349,10 @@ const education = [
 /* ─── About Page ─── */
 const AboutPage = () => {
   const containerRef = useRef(null);
-  const router = useRouter();
 
   const { scrollYProgress } = useScroll({
     container: containerRef,
   });
-
-  useEffect(() => {
-    const container = containerRef.current;
-
-    if (!container) return;
-
-    let isNavigating = false;
-
-    const handleWheel = (e) => {
-      if (isNavigating) return;
-
-      const isAtTop = container.scrollTop <= 5;
-
-      const isAtBottom =
-        container.scrollTop + container.clientHeight >=
-        container.scrollHeight - 5;
-
-      // DOWN at bottom → Projects
-      if (e.deltaY > 0 && isAtBottom) {
-        isNavigating = true;
-        router.push("/projects");
-
-        setTimeout(() => {
-          isNavigating = false;
-        }, 1000);
-      }
-
-      // UP at top → Home
-      if (e.deltaY < 0 && isAtTop) {
-        isNavigating = true;
-        router.push("/");
-
-        setTimeout(() => {
-          isNavigating = false;
-        }, 1000);
-      }
-    };
-
-    container.addEventListener("wheel", handleWheel, {
-      passive: true,
-    });
-
-    return () => {
-      container.removeEventListener("wheel", handleWheel);
-    };
-  }, [router]);
 
   return (
     <motion.div
@@ -414,10 +361,22 @@ const AboutPage = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
     >
-      {/* BACKGROUND — NEURAL NETWORK */}
+      {/* BACKGROUND */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <NeuralNetworkBackground />
       </div>
+
+      {/* TOP SCROLL OVERLAY */}
+      <div
+        className="
+          absolute top-0 left-0 right-0
+          h-32
+          z-30
+          pointer-events-none
+          bg-gradient-to-b
+          from-black via-black/95 to-transparent
+        "
+      />
 
       <div
         ref={containerRef}
@@ -428,7 +387,7 @@ const AboutPage = () => {
           className="
             w-full lg:w-[50%]
             px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20
-            pt-28 sm:pt-36 pb-40
+            pt-28 sm:pt-36 pb-8 lg:pb-40
             flex flex-col gap-16
             text-white z-20 relative
           "
@@ -449,7 +408,7 @@ const AboutPage = () => {
                 "
               >
                 <Image
-                  src="/profile.jpg"
+                  src="/Aniket_Sundriyal.jpeg"
                   alt="Aniket Sundriyal"
                   fill
                   sizes="88px"
@@ -505,24 +464,33 @@ const AboutPage = () => {
             <SectionTitle>Technical Skills</SectionTitle>
 
             <div className="flex gap-2 flex-wrap">
-              {skills.map((skill) => (
-                <div
-                  key={skill}
-                  className="
-                    rounded-md px-3 py-1.5
-                    text-xs font-medium tracking-wide
-                    bg-white/[0.04]
-                    text-cyan-100
-                    border border-white/[0.08]
-                    hover:bg-cyan-500/20
-                    hover:border-cyan-400/50
-                    hover:text-white
-                    transition-all duration-200
-                  "
-                >
-                  {skill}
-                </div>
-              ))}
+              {skills.map((skill, index) => {
+                const skillColors = [
+                  "border-cyan-400/30 text-cyan-300 bg-cyan-400/[0.07] hover:bg-cyan-400/15 hover:shadow-[0_0_15px_rgba(34,211,238,0.25)]",
+                  "border-purple-400/30 text-purple-300 bg-purple-400/[0.07] hover:bg-purple-400/15 hover:shadow-[0_0_15px_rgba(168,85,247,0.25)]",
+                  "border-pink-400/30 text-pink-300 bg-pink-400/[0.07] hover:bg-pink-400/15 hover:shadow-[0_0_15px_rgba(244,114,182,0.25)]",
+                  "border-blue-400/30 text-blue-300 bg-blue-400/[0.07] hover:bg-blue-400/15 hover:shadow-[0_0_15px_rgba(96,165,250,0.25)]",
+                  "border-emerald-400/30 text-emerald-300 bg-emerald-400/[0.07] hover:bg-emerald-400/15 hover:shadow-[0_0_15px_rgba(52,211,153,0.25)]",
+                  "border-amber-400/30 text-amber-300 bg-amber-400/[0.07] hover:bg-amber-400/15 hover:shadow-[0_0_15px_rgba(251,191,36,0.25)]",
+                ];
+
+                return (
+                  <div
+                    key={skill}
+                    className={`
+                      rounded-md px-3 py-1.5
+                      text-xs font-semibold tracking-wide
+                      border
+                      transition-all duration-300 ease-out
+                      hover:-translate-y-1 hover:scale-105
+                      cursor-default
+                      ${skillColors[index % skillColors.length]}
+                    `}
+                  >
+                    {skill}
+                  </div>
+                );
+              })}
             </div>
           </section>
 
@@ -612,16 +580,29 @@ const AboutPage = () => {
                 </div>
               ))}
             </div>
-          </section>
 
-          {/* EXTRA SCROLL SPACE AFTER EDUCATION */}
-          <div
-            className="w-full h-[80px] shrink-0"
-            aria-hidden="true"
-          />
+            {/* NEXT BUTTON */}
+            <div className="flex w-full justify-center mt-0 lg:relative lg:left-[45vw] lg:w-screen lg:-translate-x-1/2">
+              <Link
+                href="/projects"
+                className="group inline-flex items-center gap-3 rounded-full border border-cyan-400/40 bg-cyan-500/10 px-7 py-3 font-semibold text-cyan-300 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-300 hover:bg-cyan-500/20 hover:shadow-[0_0_25px_rgba(34,211,238,0.25)]"
+              >
+                Next
+                <span className="transition-transform duration-300 group-hover:translate-x-1">
+                  →
+                </span>
+              </Link>
+            </div>
+
+            {/* SMALL BOTTOM SPACE */}
+            <div
+              className="h-6 w-full shrink-0"
+              aria-hidden="true"
+            />
+          </section>
         </div>
 
-        {/* RIGHT — EXISTING BRAIN ANIMATION */}
+        {/* RIGHT — BRAIN ANIMATION */}
         <div className="hidden lg:flex lg:w-[50%] sticky top-0 h-screen z-10 pointer-events-none items-center justify-center">
           <div
             className="
@@ -631,7 +612,7 @@ const AboutPage = () => {
               xl:scale-[0.9]
               2xl:scale-[1.0]
               translate-x-10
-              translate-y-4
+              translate-y-15
               opacity-90
             "
           >

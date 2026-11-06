@@ -4,7 +4,7 @@
 import Link from "next/link";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
-import { SiLeetcode } from "react-icons/si";
+import { SiLeetcode, SiTelegram } from "react-icons/si";
 
 export default function Social() {
   const iconStyle =
@@ -52,14 +52,14 @@ export default function Social() {
         <SiLeetcode className={`${iconStyle} group-hover:text-orange-400`} />
       </Link>
 
-      {/* Email */}
+      {/* Gmail */}
       <Link
         href="mailto:sundriyalaniket@gmail.com"
         aria-label="Email"
         className={linkStyle}
       >
         <span className="pointer-events-none absolute inset-0 -translate-x-[130%] skew-x-[-20deg] bg-gradient-to-r from-transparent via-cyan-300/30 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-[130%]" />
-        <MdEmail className={`${iconStyle} group-hover:text-cyan-400`} />
+        <MdEmail className={`${iconStyle} group-hover:text-red-400`} />
       </Link>
 
     </div>

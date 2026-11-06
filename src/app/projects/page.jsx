@@ -2,7 +2,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
@@ -59,15 +58,12 @@ const NeuralNetworkBackground = () => {
         phase: Math.random() * Math.PI * 2,
       }));
 
-      if (reduceMotion) {
-        drawNetwork();
-      }
+      if (reduceMotion) drawNetwork();
     };
 
     const drawNetwork = () => {
       ctx.clearRect(0, 0, width, height);
 
-      // Connect nearby particles
       for (let i = 0; i < particles.length; i++) {
         const particle = particles[i];
 
@@ -92,7 +88,6 @@ const NeuralNetworkBackground = () => {
           }
         }
 
-        // Mouse interaction
         const mouseDx = particle.x - mouse.x;
         const mouseDy = particle.y - mouse.y;
 
@@ -114,7 +109,6 @@ const NeuralNetworkBackground = () => {
         }
       }
 
-      // Draw glowing particles
       particles.forEach((particle) => {
         const glow = 0.7 + Math.sin(particle.phase) * 0.25;
 
@@ -137,7 +131,6 @@ const NeuralNetworkBackground = () => {
         ctx.shadowBlur = 0;
       });
 
-      // Subtle cursor glow
       if (mouse.x > 0 && mouse.y > 0) {
         const gradient = ctx.createRadialGradient(
           mouse.x,
@@ -174,7 +167,6 @@ const NeuralNetworkBackground = () => {
         particle.y += particle.vy;
         particle.phase += 0.025;
 
-        // Wrap particles around screen edges
         if (particle.x < -10) particle.x = width + 10;
         if (particle.x > width + 10) particle.x = -10;
 
@@ -183,7 +175,6 @@ const NeuralNetworkBackground = () => {
       });
 
       drawNetwork();
-
       animationFrame = requestAnimationFrame(animate);
     };
 
@@ -216,14 +207,10 @@ const NeuralNetworkBackground = () => {
 
     resizeCanvas();
 
-    if (!reduceMotion) {
-      animate();
-    }
+    if (!reduceMotion) animate();
 
     return () => {
-      if (animationFrame) {
-        cancelAnimationFrame(animationFrame);
-      }
+      if (animationFrame) cancelAnimationFrame(animationFrame);
 
       observer.disconnect();
 
@@ -342,8 +329,7 @@ const projectData = [
     image: "/project7.png",
     github:
       "https://github.com/GxAniket/Integrated-Logistics-Intelligence-Platform",
-    live:
-      "https://integrated-logistics-intelligence-p.vercel.app/",
+    live: "https://integrated-logistics-intelligence-p.vercel.app/",
   },
   {
     id: 8,
@@ -375,61 +361,16 @@ const projectData = [
 
 /* ─── Projects Page ─── */
 export default function Projects() {
-  const router = useRouter();
   const containerRef = useRef(null);
-
-  useEffect(() => {
-    const container = containerRef.current;
-
-    if (!container) return;
-
-    let isNavigating = false;
-
-    const handleWheel = (event) => {
-      if (isNavigating) return;
-
-      const isAtTop = container.scrollTop <= 5;
-
-      const isAtBottom =
-        container.scrollTop + container.clientHeight >=
-        container.scrollHeight - 5;
-
-      if (event.deltaY > 0 && isAtBottom) {
-        isNavigating = true;
-        router.push("/contact");
-
-        setTimeout(() => {
-          isNavigating = false;
-        }, 1000);
-      }
-
-      if (event.deltaY < 0 && isAtTop) {
-        isNavigating = true;
-        router.push("/about");
-
-        setTimeout(() => {
-          isNavigating = false;
-        }, 1000);
-      }
-    };
-
-    container.addEventListener("wheel", handleWheel, {
-      passive: true,
-    });
-
-    return () => {
-      container.removeEventListener("wheel", handleWheel);
-    };
-  }, [router]);
 
   return (
     <motion.div
-      className="relative isolate h-full w-full overflow-hidden"
+      className="relative isolate min-h-screen w-full overflow-hidden lg:h-full"
       initial={{ y: "-200vh" }}
       animate={{ y: "0%" }}
       transition={{ duration: 1 }}
     >
-      {/* BACKGROUND — SAME NEURAL NETWORK */}
+      {/* BACKGROUND */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <NeuralNetworkBackground />
       </div>
@@ -437,7 +378,23 @@ export default function Projects() {
       {/* PROJECT CONTENT */}
       <div
         ref={containerRef}
-        className="relative z-10 h-full w-full overflow-y-auto p-8 pb-24 md:p-20 scrollbar-hide"
+        className="
+          relative z-10
+          w-full
+          px-4 pt-28 pb-24
+          md:px-20
+
+          lg:absolute
+          lg:inset-x-0
+          lg:top-28
+          lg:bottom-0
+          lg:overflow-y-auto
+          lg:overflow-x-hidden
+          lg:pt-8
+          lg:pb-20
+
+          scrollbar-hide
+        "
       >
         <div className="mt-10 flex flex-col items-center justify-center text-white lg:mt-0">
           <h1 className="mb-12 text-center text-4xl font-bold md:text-6xl">
@@ -451,13 +408,21 @@ export default function Projects() {
                 whileHover={{ scale: 1.03 }}
                 className="flex flex-col justify-between overflow-hidden rounded-2xl border border-cyan-500/30 bg-black/40 shadow-lg backdrop-blur-md transition-all duration-300 hover:shadow-cyan-400/40"
               >
+                {/* PROJECT IMAGE */}
                 <div className="relative h-48 w-full border-b border-cyan-500/20 bg-gray-900 md:h-56">
                   <Image
                     src={project.image}
                     alt={project.title}
                     fill
                     unoptimized
-                    className="object-cover opacity-80 transition-opacity duration-300 hover:opacity-100"
+                    className="
+                      object-contain
+                      md:object-cover
+                      opacity-80
+                      transition-opacity
+                      duration-300
+                      hover:opacity-100
+                    "
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     priority={project.id <= 3}
                   />
@@ -482,15 +447,10 @@ export default function Projects() {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       >
-                        <rect
-                          width="18"
-                          height="18"
-                          x="3"
-                          y="4"
-                          rx="2"
-                        />
+                        <rect width="18" height="18" x="3" y="4" rx="2" />
                         <path d="M16 2v4M8 2v4M3 10h18" />
                       </svg>
+
                       {project.year}
                     </span>
 
@@ -521,16 +481,17 @@ export default function Projects() {
                             : "bg-yellow-400 shadow-[0_0_6px_rgba(234,179,8,0.9)]"
                         }`}
                       />
+
                       {project.status}
                     </span>
                   </div>
 
-                  {/* ORIGINAL PROJECT DESCRIPTION */}
+                  {/* PROJECT DESCRIPTION */}
                   <p className="mb-6 flex-grow text-sm leading-relaxed text-gray-300 md:text-base">
                     {project.description}
                   </p>
 
-                  {/* ORIGINAL TECHNOLOGY TAGS */}
+                  {/* TECHNOLOGY TAGS */}
                   <div className="mb-6 flex flex-wrap gap-2">
                     {project.tech.map((tag) => (
                       <span
@@ -544,7 +505,6 @@ export default function Projects() {
 
                   {/* PROJECT BUTTONS */}
                   <div className="mt-auto flex gap-4">
-                    {/* GITHUB — CYAN GLASS / LIGHT SWEEP HOVER */}
                     <Link
                       href={project.github}
                       target="_blank"
@@ -552,10 +512,10 @@ export default function Projects() {
                       className="group relative isolate w-1/2 overflow-hidden rounded-lg border border-gray-600 bg-gray-800 px-4 py-2 text-center text-sm font-semibold text-white transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:border-emerald-400 hover:bg-gray-700 hover:shadow-[0_8px_25px_rgba(16,185,129,0.35)] active:translate-y-0 active:scale-95"
                     >
                       <span className="pointer-events-none absolute inset-0 -translate-x-[130%] skew-x-[-20deg] bg-gradient-to-r from-transparent via-emerald-300/25 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-[130%]" />
+
                       <span className="relative z-10">GitHub</span>
                     </Link>
 
-                    {/* LIVE DEMO — CYAN / BLUE GRADIENT HOVER */}
                     <Link
                       href={project.live}
                       target="_blank"
@@ -563,12 +523,27 @@ export default function Projects() {
                       className="group relative isolate w-1/2 overflow-hidden rounded-lg bg-cyan-600 px-4 py-2 text-center text-sm font-semibold text-white transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:bg-gradient-to-r hover:from-cyan-500 hover:to-blue-600 hover:shadow-[0_8px_28px_rgba(6,182,212,0.45)] active:translate-y-0 active:scale-95"
                     >
                       <span className="pointer-events-none absolute inset-0 -translate-x-[130%] skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-[130%]" />
+
                       <span className="relative z-10">Live Demo</span>
                     </Link>
                   </div>
                 </div>
               </motion.div>
             ))}
+          </div>
+
+          {/* NEXT PAGE BUTTON */}
+          <div className="mt-8 flex w-full justify-center">
+            <Link
+              href="/contact"
+              className="group inline-flex items-center gap-3 rounded-full border border-cyan-400/40 bg-cyan-500/10 px-7 py-3 font-semibold text-cyan-300 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-300 hover:bg-cyan-500/20 hover:shadow-[0_0_25px_rgba(34,211,238,0.25)]"
+            >
+              Next
+
+              <span className="transition-transform duration-300 group-hover:translate-x-1">
+                →
+              </span>
+            </Link>
           </div>
         </div>
       </div>

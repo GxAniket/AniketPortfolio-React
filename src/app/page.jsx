@@ -142,7 +142,6 @@ const StarfieldBackground = () => {
       });
 
       drawStars();
-
       animationFrame = requestAnimationFrame(animate);
     };
 
@@ -206,33 +205,46 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    let isNavigating = false;
-
+    // Desktop wheel navigation only.
+    // Mobile users can scroll naturally.
     const handleWheel = (e) => {
-      if (isNavigating) return;
-
       if (e.deltaY > 0) {
-        isNavigating = true;
         router.push("/about");
-
-        setTimeout(() => {
-          isNavigating = false;
-        }, 1000);
       }
     };
 
-    window.addEventListener("wheel", handleWheel, {
+    // Avoid repeated navigation while the route changes.
+    let isNavigating = false;
+
+    const safeHandleWheel = (e) => {
+      if (isNavigating || e.deltaY <= 0) return;
+
+      isNavigating = true;
+      handleWheel(e);
+
+      setTimeout(() => {
+        isNavigating = false;
+      }, 1000);
+    };
+
+    window.addEventListener("wheel", safeHandleWheel, {
       passive: true,
     });
 
     return () => {
-      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("wheel", safeHandleWheel);
     };
   }, [router]);
 
   return (
     <motion.div
-      className="relative isolate min-h-screen lg:h-full overflow-hidden"
+      className="
+        relative isolate
+        min-h-screen
+        lg:h-full
+        flex flex-col
+        overflow-x-hidden
+      "
       initial={{ y: "-200vh" }}
       animate={{ y: "0%" }}
       transition={{ duration: 1 }}
@@ -243,21 +255,44 @@ export default function Home() {
       </div>
 
       {/* HOME CONTENT */}
-      <div className="relative z-10 min-h-screen lg:h-full flex flex-col lg:flex-row px-4 sm:px-8 md:px-12 lg:px-20 xl:px-48 py-24 lg:py-20 gap-5 lg:gap-10">
-
+      <main
+        className="
+          relative z-10 flex-1
+          min-h-screen lg:min-h-0 lg:h-full
+          flex flex-col lg:flex-row
+          px-4 sm:px-8 md:px-12
+          lg:px-16 xl:px-20 2xl:px-32
+          pt-24 pb-10 lg:py-24
+          gap-8 lg:gap-10 2xl:gap-14
+        "
+      >
         {/* LEFT SIDE — PROFILE IMAGE */}
-        <div className="min-h-[300px] sm:min-h-[320px] lg:min-h-0 lg:h-full lg:w-5/12 flex justify-center items-center">
+        <div
+          className="
+            min-h-[300px] sm:min-h-[340px]
+            lg:min-h-0 lg:h-full lg:w-[42%] lg:shrink-0
+            flex justify-center items-center
+          "
+        >
           <div className="deneme"></div>
         </div>
 
         {/* RIGHT SIDE — INTRODUCTION */}
-        <div className="h-auto lg:h-full lg:w-1/2 flex flex-col gap-5 lg:gap-8 items-center lg:items-start justify-center text-white text-center lg:text-left py-2 lg:py-0">
-
+        <div
+          className="
+            h-auto lg:h-full lg:flex-1 lg:min-w-0
+            flex flex-col gap-5 lg:gap-7
+            items-center lg:items-start
+            justify-center
+            text-white text-center lg:text-left
+            py-2 lg:py-0
+          "
+        >
           {/* NAME AND ROLE */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl font-bold leading-tight">
             Hi, I'm Aniket Sundriyal <br />
 
-            <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-purple-400 mt-2 block min-h-[1.3em]">
+            <span className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl text-purple-400 mt-2 block min-h-[1.3em]">
               <Animation />
             </span>
           </h1>
@@ -271,14 +306,30 @@ export default function Home() {
             projects.
           </p>
 
-          {/* SOCIAL ICONS — UNCHANGED */}
+          {/* SOCIAL ICONS */}
           <Social />
 
-          {/* RESUME AND CONTACT BUTTONS — UNCHANGED */}
+          {/* RESUME AND CONTACT BUTTONS */}
           <Transmission />
-
         </div>
-      </div>
+      </main>
+
+      {/* COPYRIGHT FOOTER */}
+      <footer
+        className="
+          relative z-20
+          w-full shrink-0
+          mt-auto
+          text-center
+          px-4 py-5
+          border-t border-white/10
+          bg-black
+        "
+      >
+        <p className="text-[10px] sm:text-xs text-gray-500 tracking-wide">
+          © 2025 - 2026 Aniket Sundriyal. All rights reserved.
+        </p>
+      </footer>
     </motion.div>
   );
 }
