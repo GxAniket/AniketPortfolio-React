@@ -301,7 +301,7 @@ const ContactPage = () => {
       title: "Email",
       value: "sundriyalaniket@gmail.com",
       icon: <FaEnvelope className="w-5 h-5 lg:w-6 lg:h-6" />,
-      link: "",
+      link: "https://mail.google.com/mail/?view=cm&fs=1&to=sundriyalaniket%40gmail.com",
       color:
         "hover:text-red-400 hover:border-red-400/50 hover:bg-red-500/10",
     },
@@ -471,8 +471,15 @@ const ContactPage = () => {
           </div>
         </div>
       </div>
+
+      <footer className="absolute inset-x-0 bottom-0 z-10 border-t border-white/10 bg-black/40 px-4 py-4 text-center backdrop-blur-sm">
+        <p className="text-xs tracking-[0.12em] text-slate-500 sm:text-sm">
+          © 2025 - 2026 Aniket Sundriyal. All rights reserved.
+        </p>
+      </footer>
     </motion.div>
   );
 };
 
 export default ContactPage;
+
