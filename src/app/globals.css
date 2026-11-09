@@ -90,3 +90,17 @@ body {
     transition: none;
   }
 }
+
+/* ================================
+   HIDE ABOUT PAGE SCROLLBAR
+   Scrolling remains enabled
+================================ */
+
+.about-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.about-scrollbar::-webkit-scrollbar {
+  display: none;
+}

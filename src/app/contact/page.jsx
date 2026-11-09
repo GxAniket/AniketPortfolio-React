@@ -2,7 +2,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import MapChart from "@/components/MapChart";
 import {
@@ -252,48 +251,6 @@ const NeuralNetworkBackground = () => {
 
 /* ─── Contact Page ─── */
 const ContactPage = () => {
-  const router = useRouter();
-  const cardRef = useRef(null);
-
-  useEffect(() => {
-    let isNavigating = false;
-
-    const handleWheel = (e) => {
-      if (isNavigating) return;
-
-      // UP → Projects
-      if (e.deltaY < 0) {
-        const card = cardRef.current;
-
-        // If cursor is inside the scrollable card
-        if (card && card.contains(e.target)) {
-          const isCardAtTop = card.scrollTop <= 5;
-
-          // Let the card scroll upward normally
-          if (!isCardAtTop) {
-            return;
-          }
-        }
-
-        isNavigating = true;
-
-        router.push("/projects");
-
-        setTimeout(() => {
-          isNavigating = false;
-        }, 1000);
-      }
-    };
-
-    window.addEventListener("wheel", handleWheel, {
-      passive: true,
-    });
-
-    return () => {
-      window.removeEventListener("wheel", handleWheel);
-    };
-  }, [router]);
-
   const text = "Say Hello";
 
   const socialLinks = [
@@ -368,7 +325,6 @@ const ContactPage = () => {
 
         {/* CONTACT CARDS */}
         <div
-          ref={cardRef}
           className="
             flex-1
             lg:flex-none
@@ -389,7 +345,6 @@ const ContactPage = () => {
         >
           {/* TITLE */}
           <div className="text-center text-2xl lg:text-4xl mb-2 text-white font-bold">
-
             {text.split("").map((letter, index) => (
               <motion.span
                 key={index}
@@ -414,7 +369,6 @@ const ContactPage = () => {
 
           {/* SOCIAL LINKS */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-
             {socialLinks.map((social, index) => {
               const CardContent = (
                 <motion.div
@@ -467,13 +421,13 @@ const ContactPage = () => {
                 </div>
               );
             })}
-
           </div>
         </div>
       </div>
 
-      <footer className="absolute inset-x-0 bottom-0 z-10 border-t border-white/10 bg-black/40 px-4 py-4 text-center backdrop-blur-sm">
-        <p className="text-xs tracking-[0.12em] text-slate-500 sm:text-sm">
+      {/* COMPACT FOOTER */}
+      <footer className="absolute inset-x-0 bottom-0 z-10 border-t border-white/10 bg-black/40 px-4 py-2 text-center backdrop-blur-sm">
+        <p className="text-[10px] tracking-[0.12em] text-slate-500 sm:text-xs">
           © 2025 - 2026 Aniket Sundriyal. All rights reserved.
         </p>
       </footer>
@@ -482,4 +436,3 @@ const ContactPage = () => {
 };
 
 export default ContactPage;
-

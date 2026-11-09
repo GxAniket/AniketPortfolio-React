@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useRef } from "react";
@@ -379,6 +378,7 @@ export default function Projects() {
       <div
         ref={containerRef}
         className="
+          about-scrollbar
           relative z-10
           w-full
           px-4 pt-28 pb-24
@@ -392,8 +392,6 @@ export default function Projects() {
           lg:overflow-x-hidden
           lg:pt-8
           lg:pb-20
-
-          scrollbar-hide
         "
       >
         <div className="mt-10 flex flex-col items-center justify-center text-white lg:mt-0">

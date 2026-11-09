@@ -1,3 +1,4 @@
+
 "use client";
 
 import Brain from "@/components/Brain";
@@ -378,9 +379,10 @@ const AboutPage = () => {
         "
       />
 
+      {/* SCROLL CONTAINER */}
       <div
         ref={containerRef}
-        className="relative z-10 h-full overflow-y-scroll overflow-x-hidden lg:flex"
+        className="about-scrollbar relative z-10 h-full overflow-y-scroll overflow-x-hidden lg:flex"
       >
         {/* LEFT CONTENT */}
         <div
