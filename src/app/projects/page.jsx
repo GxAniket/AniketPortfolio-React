@@ -270,19 +270,6 @@ const projectData = [
     live: "https://gxaniket.github.io/music-player/",
   },
   {
-    id: 4,
-    title: "Weather App (Next.js)",
-    description:
-      "Modern weather application built with Next.js and OpenWeatherMap API featuring real-time weather updates, temperature, humidity, wind speed, and responsive UI.",
-    year: "Year 4",
-    timeline: "Semester 7",
-    status: "In Progress",
-    tech: ["Next.js", "OpenWeatherMap API", "React"],
-    image: "/project4.png",
-    github: "https://github.com/GxAniket/weather-app-nextjs",
-    live: "https://github.com/GxAniket/weather-app-nextjs",
-  },
-  {
     id: 5,
     title: "Multi-Disease Prediction System",
     description:
@@ -308,7 +295,7 @@ const projectData = [
     title: "E-Commerce Web Application",
     description:
       "Full-stack e-commerce platform featuring authentication, product listings, cart management, and order processing.",
-    year: "In Progress",
+    year: "Year 4",
     timeline: "Development Ongoing",
     status: "In Progress",
     tech: ["MongoDB", "Express", "React", "Node.js", "MERN"],
@@ -334,10 +321,10 @@ const projectData = [
     id: 8,
     title: "Todo App",
     description:
-      "A modern personal productivity and task management application built with React.js.",
-    year: "Year 3",
-    timeline: "Semester 6",
-    status: "Completed · Issues Remaining",
+      "A streamlined task manager for organizing daily activities and tracking progress.",
+    year: "Year 4",
+    timeline: "Semester 7",
+    status: "Completed",
     tech: ["React", "TypeScript", "Tailwind CSS", "Vite", "Local Storage"],
     image: "/project8.png",
     github: "https://github.com/GxAniket/todo-app",
@@ -357,6 +344,21 @@ const projectData = [
     live: "https://github.com/GxAniket/Uit-Campus-Fighters",
   },
 ];
+
+const orderedProjectData = [...projectData].sort((a, b) => {
+  const getYear = (year) => {
+    const academicYear = year.match(/^Year (\d+)$/);
+    if (academicYear) return Number(academicYear[1]);
+    if (/^\d{4}$/.test(year)) return 4.5;
+    return Number.POSITIVE_INFINITY;
+  };
+  const yearDifference = getYear(a.year) - getYear(b.year);
+  if (yearDifference !== 0) return yearDifference;
+
+  const getSemester = (timeline) =>
+    Number(timeline.match(/Semester (\d+)/)?.[1] ?? Infinity);
+  return getSemester(a.timeline) - getSemester(b.timeline);
+});
 
 /* ─── Projects Page ─── */
 export default function Projects() {
@@ -400,7 +402,7 @@ export default function Projects() {
           </h1>
 
           <div className="grid w-full max-w-7xl grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3">
-            {projectData.map((project) => (
+            {orderedProjectData.map((project) => (
               <motion.div
                 key={project.id}
                 whileHover={{ scale: 1.03 }}
@@ -415,7 +417,6 @@ export default function Projects() {
                     unoptimized
                     className="
                       object-contain
-                      md:object-cover
                       opacity-80
                       transition-opacity
                       duration-300
