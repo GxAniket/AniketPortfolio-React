@@ -1,13 +1,16 @@
 
 "use client";
 
-import Brain from "@/components/Brain";
-import { motion, useScroll } from "framer-motion";
+import { useEffect, useRef } from "react";
+import ScrollBendCertificates from "@/components/ScrollBendCertificates";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useEffect } from "react";
 
-/* ─── Interactive Neural Network Background ─── */
+/* =========================================
+   INTERACTIVE NEURAL NETWORK BACKGROUND
+========================================= */
+
 const NeuralNetworkBackground = () => {
   const canvasRef = useRef(null);
 
@@ -59,9 +62,7 @@ const NeuralNetworkBackground = () => {
         phase: Math.random() * Math.PI * 2,
       }));
 
-      if (reduceMotion) {
-        drawNetwork();
-      }
+      if (reduceMotion) drawNetwork();
     };
 
     const drawNetwork = () => {
@@ -178,7 +179,6 @@ const NeuralNetworkBackground = () => {
       });
 
       drawNetwork();
-
       animationFrame = requestAnimationFrame(animate);
     };
 
@@ -195,9 +195,9 @@ const NeuralNetworkBackground = () => {
     const observer = new IntersectionObserver(([entry]) => {
       isVisible = entry.isIntersecting;
 
-      if (isVisible && !reduceMotion && !animationFrame) {
+      if (isVisible && !reduceMotion && animationFrame === null) {
         animate();
-      } else if (!isVisible && animationFrame) {
+      } else if (!isVisible && animationFrame !== null) {
         cancelAnimationFrame(animationFrame);
         animationFrame = null;
       }
@@ -211,12 +211,10 @@ const NeuralNetworkBackground = () => {
 
     resizeCanvas();
 
-    if (!reduceMotion) {
-      animate();
-    }
+    if (!reduceMotion) animate();
 
     return () => {
-      if (animationFrame) {
+      if (animationFrame !== null) {
         cancelAnimationFrame(animationFrame);
       }
 
@@ -237,15 +235,21 @@ const NeuralNetworkBackground = () => {
   );
 };
 
-/* ─── Section Title ─── */
+/* =========================================
+   SECTION TITLE
+========================================= */
+
 const SectionTitle = ({ children }) => (
-  <h1 className="font-bold text-2xl uppercase tracking-[0.18em] text-cyan-400 flex items-center gap-3">
+  <h2 className="font-bold text-2xl uppercase tracking-[0.18em] text-cyan-400 flex items-center gap-3">
     <span className="block w-8 h-[2px] bg-cyan-400 rounded-full flex-shrink-0" />
     {children}
-  </h1>
+  </h2>
 );
 
-/* ─── Skills ─── */
+/* =========================================
+   TECHNICAL SKILLS
+========================================= */
+
 const skills = [
   "Java",
   "Python",
@@ -271,7 +275,10 @@ const skills = [
   "MERN Stack",
 ];
 
-/* ─── Experience ─── */
+/* =========================================
+   EXPERIENCE
+========================================= */
+
 const experiences = [
   {
     title: "Java Full Stack Developer Intern",
@@ -321,7 +328,10 @@ const experiences = [
   },
 ];
 
-/* ─── Education ─── */
+/* =========================================
+   EDUCATION
+========================================= */
+
 const education = [
   {
     school: "Uttaranchal University",
@@ -347,13 +357,12 @@ const education = [
   },
 ];
 
-/* ─── About Page ─── */
+/* =========================================
+   ABOUT PAGE
+========================================= */
+
 const AboutPage = () => {
   const containerRef = useRef(null);
-
-  const { scrollYProgress } = useScroll({
-    container: containerRef,
-  });
 
   return (
     <motion.div
@@ -388,8 +397,9 @@ const AboutPage = () => {
         <div
           className="
             w-full lg:w-[50%]
+            min-w-0
             px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20
-            pt-28 sm:pt-36 pb-8 lg:pb-40
+            pt-28 sm:pt-36 pb-8 lg:pb-16
             flex flex-col gap-16
             text-white z-20 relative
           "
@@ -582,45 +592,55 @@ const AboutPage = () => {
                 </div>
               ))}
             </div>
-
-            {/* NEXT BUTTON */}
-            <div className="flex w-full justify-center mt-0 lg:relative lg:left-[45vw] lg:w-screen lg:-translate-x-1/2">
-              <Link
-                href="/projects"
-                className="group inline-flex items-center gap-3 rounded-full border border-cyan-400/40 bg-cyan-500/10 px-7 py-3 font-semibold text-cyan-300 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-300 hover:bg-cyan-500/20 hover:shadow-[0_0_25px_rgba(34,211,238,0.25)]"
-              >
-                Next
-                <span className="transition-transform duration-300 group-hover:translate-x-1">
-                  →
-                </span>
-              </Link>
-            </div>
-
-            {/* SMALL BOTTOM SPACE */}
-            <div
-              className="h-6 w-full shrink-0"
-              aria-hidden="true"
-            />
           </section>
+
+          {/* NEXT BUTTON — LEFT COLUMN ONLY */}
+          <div className="flex w-full justify-center pt-2 pb-12">
+            <Link
+              href="/projects"
+              className="
+                group inline-flex items-center gap-3
+                rounded-full
+                border border-cyan-400/40
+                bg-cyan-500/10
+                px-7 py-3
+                font-semibold text-cyan-300
+                transition-all duration-300
+                hover:-translate-y-1
+                hover:border-cyan-300
+                hover:bg-cyan-500/20
+                hover:shadow-[0_0_25px_rgba(34,211,238,0.25)]
+              "
+            >
+              Next
+
+              <span className="transition-transform duration-300 group-hover:translate-x-1">
+                →
+              </span>
+            </Link>
+          </div>
+
         </div>
 
-        {/* RIGHT — BRAIN ANIMATION */}
-        <div className="hidden lg:flex lg:w-[50%] sticky top-0 h-screen z-10 pointer-events-none items-center justify-center">
-          <div
-            className="
-              w-full h-full
-              flex items-center justify-center
-              scale-[0.8]
-              xl:scale-[0.9]
-              2xl:scale-[1.0]
-              translate-x-10
-              translate-y-15
-              opacity-90
-            "
-          >
-            <Brain scrollYProgress={scrollYProgress} />
+        {/* RIGHT — CERTIFICATE SHOWCASE */}
+        <aside
+          className="
+            hidden lg:flex
+            lg:w-[50%]
+            min-w-0
+            sticky top-0
+            h-screen
+            self-start
+            z-10
+            items-center
+            justify-center
+            overflow-hidden
+          "
+        >
+          <div className="w-full h-full min-h-0 flex items-center justify-center">
+            <ScrollBendCertificates />
           </div>
-        </div>
+        </aside>
       </div>
     </motion.div>
   );
