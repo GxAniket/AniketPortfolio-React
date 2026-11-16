@@ -92,7 +92,7 @@ export default function ScrollBendCertificates() {
       setActiveIndex((current) =>
         (current + 1) % certificates.length
       );
-    }, 2500);
+    }, 4500);
 
     return () => window.clearInterval(interval);
   }, [isPlaying, timerKey]);
