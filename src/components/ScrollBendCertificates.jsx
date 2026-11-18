@@ -6,6 +6,11 @@ import "./ScrollBendCertificates.css";
 
 const certificates = [
   {
+    title: "Infosys Full Stack Web Development",
+    category: "INTERNSHIP",
+    image: "/certificates/Infosys Springboard.png",
+  },
+  {
     title: "Amazon Full Stack Web Development",
     category: "WEB DEVELOPMENT",
     image: "/certificates/amazon-fullstack.png.png",
