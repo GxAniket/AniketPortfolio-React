@@ -251,8 +251,8 @@ const projectData = [
     title: "Music Player",
     description:
       "Frontend-based music player with interactive UI controls.",
-    year: "Year 1",
-    timeline: "Semester 2",
+    year: "Year 2",
+    timeline: "Semester 3",
     status: "Completed",
     tech: ["HTML5", "CSS3", "JavaScript", "Frontend UI"],
     image: "/project3.png",
