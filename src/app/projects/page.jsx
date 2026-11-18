@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useRef } from "react";
@@ -240,21 +241,10 @@ const projectData = [
     status: "Completed",
     tech: ["HTML", "CSS", "JavaScript", "WebCrypto"],
     image: "/project1.png",
-    github: "https://github.com/GxAniket/encryptor-decryptor-version-1",
-    live: "https://gxaniket.github.io/encryptor-decryptor-version-1/",
-  },
-  {
-    id: 2,
-    title: "Portfolio Website",
-    description:
-      "Responsive personal portfolio showcasing projects and skills.",
-    year: "Year 3",
-    timeline: "Semester 5 – 6",
-    status: "Completed",
-    tech: ["Next.js", "React", "Tailwind CSS", "Framer Motion"],
-    image: "/project2.png",
-    github: "https://github.com/GxAniket/Aniket-Portfolio-01",
-    live: "https://aniket-portfolio-react.vercel.app/",
+    github:
+      "https://github.com/GxAniket/encryptor-decryptor-version-1",
+    live:
+      "https://gxaniket.github.io/encryptor-decryptor-version-1/",
   },
   {
     id: 3,
@@ -287,8 +277,10 @@ const projectData = [
       "JavaScript",
     ],
     image: "/project5.png",
-    github: "https://github.com/GxAniket/diabetes-prediction-app",
-    live: "https://github.com/GxAniket/diabetes-prediction-app",
+    github:
+      "https://github.com/GxAniket/diabetes-prediction-app",
+    live:
+      "https://github.com/GxAniket/diabetes-prediction-app",
   },
   {
     id: 6,
@@ -300,8 +292,10 @@ const projectData = [
     status: "In Progress",
     tech: ["MongoDB", "Express", "React", "Node.js", "MERN"],
     image: "/profile6.png",
-    github: "https://github.com/GxAniket/ecommerce-fullstack-app",
-    live: "https://github.com/GxAniket/ecommerce-fullstack-app",
+    github:
+      "https://github.com/GxAniket/ecommerce-fullstack-app",
+    live:
+      "https://github.com/GxAniket/ecommerce-fullstack-app",
   },
   {
     id: 7,
@@ -311,11 +305,19 @@ const projectData = [
     year: "2026",
     timeline: "Aug – Nov · Infosys Springboard Internship",
     status: "Completed",
-    tech: ["React", "Java", "Spring Boot", "PostgreSQL", "JWT", "REST API"],
+    tech: [
+      "React",
+      "Java",
+      "Spring Boot",
+      "PostgreSQL",
+      "JWT",
+      "REST API",
+    ],
     image: "/project7.png",
     github:
       "https://github.com/GxAniket/Integrated-Logistics-Intelligence-Platform",
-    live: "https://integrated-logistics-intelligence-p.vercel.app/",
+    live:
+      "https://integrated-logistics-intelligence-p.vercel.app/",
   },
   {
     id: 8,
@@ -325,38 +327,37 @@ const projectData = [
     year: "Year 4",
     timeline: "Semester 7",
     status: "Completed",
-    tech: ["React", "TypeScript", "Tailwind CSS", "Vite", "Local Storage"],
+    tech: [
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Vite",
+      "Local Storage",
+    ],
     image: "/project8.png",
     github: "https://github.com/GxAniket/todo-app",
     live: "https://todo-app-two-sigma-85.vercel.app",
   },
-  {
-    id: 9,
-    title: "UIT Campus Fighters",
-    description:
-      "A Unity-based 3D college fighting game featuring student characters, combat, combos, enemy AI, and university arenas.",
-    year: "Year 4",
-    timeline: "Semester 7",
-    status: "Planning Phase",
-    tech: ["Unity", "C#", "3D Game Development", "Game Design"],
-    image: "/project9.png",
-    github: "https://github.com/GxAniket/Uit-Campus-Fighters",
-    live: "https://github.com/GxAniket/Uit-Campus-Fighters",
-  },
 ];
 
+/* ─── Sort Projects ─── */
 const orderedProjectData = [...projectData].sort((a, b) => {
   const getYear = (year) => {
     const academicYear = year.match(/^Year (\d+)$/);
+
     if (academicYear) return Number(academicYear[1]);
     if (/^\d{4}$/.test(year)) return 4.5;
+
     return Number.POSITIVE_INFINITY;
   };
+
   const yearDifference = getYear(a.year) - getYear(b.year);
+
   if (yearDifference !== 0) return yearDifference;
 
   const getSemester = (timeline) =>
     Number(timeline.match(/Semester (\d+)/)?.[1] ?? Infinity);
+
   return getSemester(a.timeline) - getSemester(b.timeline);
 });
 
@@ -385,7 +386,6 @@ export default function Projects() {
           w-full
           px-4 pt-28 pb-24
           md:px-20
-
           lg:absolute
           lg:inset-x-0
           lg:top-28
@@ -397,11 +397,15 @@ export default function Projects() {
         "
       >
         <div className="mt-10 flex flex-col items-center justify-center text-white lg:mt-0">
+
+          {/* PAGE TITLE */}
           <h1 className="mb-12 text-center text-4xl font-bold md:text-6xl">
             Featured <span className="text-cyan-400">Projects</span>
           </h1>
 
+          {/* PROJECT GRID */}
           <div className="grid w-full max-w-7xl grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3">
+
             {orderedProjectData.map((project) => (
               <motion.div
                 key={project.id}
@@ -428,6 +432,8 @@ export default function Projects() {
                 </div>
 
                 <div className="flex flex-grow flex-col p-6">
+
+                  {/* PROJECT TITLE */}
                   <h2 className="mb-3 text-2xl font-bold text-white">
                     {project.title}
                   </h2>
@@ -435,6 +441,7 @@ export default function Projects() {
                   {/* DEVELOPMENT TIMELINE */}
                   <div className="mb-4 flex flex-wrap items-center gap-2">
                     <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-xs font-semibold text-cyan-300">
+
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="13"
@@ -504,6 +511,8 @@ export default function Projects() {
 
                   {/* PROJECT BUTTONS */}
                   <div className="mt-auto flex gap-4">
+
+                    {/* GITHUB */}
                     <Link
                       href={project.github}
                       target="_blank"
@@ -512,9 +521,12 @@ export default function Projects() {
                     >
                       <span className="pointer-events-none absolute inset-0 -translate-x-[130%] skew-x-[-20deg] bg-gradient-to-r from-transparent via-emerald-300/25 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-[130%]" />
 
-                      <span className="relative z-10">GitHub</span>
+                      <span className="relative z-10">
+                        GitHub
+                      </span>
                     </Link>
 
+                    {/* LIVE DEMO */}
                     <Link
                       href={project.live}
                       target="_blank"
@@ -523,16 +535,40 @@ export default function Projects() {
                     >
                       <span className="pointer-events-none absolute inset-0 -translate-x-[130%] skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-[130%]" />
 
-                      <span className="relative z-10">Live Demo</span>
+                      <span className="relative z-10">
+                        Live Demo
+                      </span>
                     </Link>
+
                   </div>
                 </div>
               </motion.div>
             ))}
+
           </div>
 
-          {/* NEXT PAGE BUTTON */}
-          <div className="mt-8 flex w-full justify-center">
+          {/* NAVIGATION BUTTONS */}
+          <div className="mt-8 flex w-full flex-wrap items-center justify-center gap-4">
+
+            {/* VIEW MORE PROJECTS */}
+            <Link
+              href="https://github.com/GxAniket?tab=repositories"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-3 rounded-full border border-purple-400/40 bg-purple-500/10 px-7 py-3 font-semibold text-purple-300 transition-all duration-300 hover:-translate-y-1 hover:border-purple-300 hover:bg-purple-500/20 hover:shadow-[0_0_25px_rgba(168,85,247,0.25)]"
+            >
+              <span className="transition-transform duration-300 group-hover:-translate-x-1">
+                →
+              </span>
+
+              View More Projects
+
+              <span className="transition-transform duration-300 group-hover:translate-x-1">
+                ←
+              </span>
+            </Link>
+
+            {/* NEXT PAGE */}
             <Link
               href="/contact"
               className="group inline-flex items-center gap-3 rounded-full border border-cyan-400/40 bg-cyan-500/10 px-7 py-3 font-semibold text-cyan-300 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-300 hover:bg-cyan-500/20 hover:shadow-[0_0_25px_rgba(34,211,238,0.25)]"
@@ -543,7 +579,9 @@ export default function Projects() {
                 →
               </span>
             </Link>
+
           </div>
+
         </div>
       </div>
     </motion.div>
