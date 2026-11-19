@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useRef } from "react";
@@ -6,6 +5,18 @@ import ScrollBendCertificates from "@/components/ScrollBendCertificates";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+
+/* =========================================
+   TOP FADE MASK
+   Scroll hote waqt text navbar/logo tak pahunchne
+   se pehle fade ho jata hai (overlap fix).
+   - 0px  → 80px  : fully hidden (logo area)
+   - 80px → 120px : smooth fade-in
+   Zarurat ho to 80px / 120px adjust karo.
+========================================= */
+
+const TOP_FADE_MASK =
+  "linear-gradient(to bottom, transparent 0px, transparent 80px, #000 120px)";
 
 /* =========================================
    INTERACTIVE NEURAL NETWORK BACKGROUND
@@ -376,28 +387,19 @@ const AboutPage = () => {
         <NeuralNetworkBackground />
       </div>
 
-      {/* TOP SCROLL OVERLAY */}
-      <div
-        className="
-          absolute top-0 left-0 right-0
-          h-32
-          z-30
-          pointer-events-none
-          bg-gradient-to-b
-          from-black via-black/95 to-transparent
-        "
-      />
-
       {/* SCROLL CONTAINER */}
       <div
         ref={containerRef}
-        className="about-scrollbar relative z-10 h-full overflow-y-scroll overflow-x-hidden lg:flex"
+        className="about-scrollbar relative z-10 h-full overflow-y-scroll overflow-x-hidden lg:grid lg:grid-cols-2"
+        style={{
+          WebkitMaskImage: TOP_FADE_MASK,
+          maskImage: TOP_FADE_MASK,
+        }}
       >
         {/* LEFT CONTENT */}
         <div
           className="
-            w-full lg:w-[50%]
-            min-w-0
+            w-full min-w-0
             px-6 sm:px-10 md:px-14 lg:px-16 xl:px-20
             pt-28 sm:pt-36 pb-8 lg:pb-16
             flex flex-col gap-16
@@ -619,15 +621,13 @@ const AboutPage = () => {
               </span>
             </Link>
           </div>
-
         </div>
 
         {/* RIGHT — CERTIFICATE SHOWCASE */}
         <aside
           className="
             hidden lg:flex
-            lg:w-[50%]
-            min-w-0
+            w-full min-w-0
             sticky top-0
             h-screen
             self-start
