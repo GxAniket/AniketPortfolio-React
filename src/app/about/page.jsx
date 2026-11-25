@@ -295,7 +295,7 @@ const experiences = [
     title: "Java Full Stack Developer Intern",
     company: "Infosys Springboard",
     type: "Internship · Remote, India",
-    period: "August 2026 – November 2026",
+    period: "August 2026 – October 2026",
     accent: "#22d3ee",
     points: [
       "Gaining hands-on experience in Java full-stack development, including backend development, REST APIs, databases, and web technologies.",
